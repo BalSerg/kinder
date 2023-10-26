@@ -3,6 +3,11 @@
 @import "fonts/fonts";
 @import "services/_all";
 
+@import "components/choice";
+@import "components/editor";
+@import "components/buttons";
+@import "components/fontStyles";
+
 @include mobile {
   .main {
     padding: 22px 16px 0;
@@ -11,48 +16,10 @@
     background-size: cover;
   }
 
-  .choice {
-    &__title {
-      @include barnacleBoys32;
-
-      margin: 0 0 46px;
-
-      text-align: center;
-      color: $blue;
-      letter-spacing: 1.9px;
-      text-shadow:  -3px -3px #fff,
-      0   -3px #fff,
-      3px -3px #fff,
-      3px  0   #fff,
-      3px  3px #fff,
-      0    3px #fff,
-      -3px  3px #fff,
-      -3px  0   #fff;
-    }
-
-    &__wrapper {
-      display: grid;
-      gap: 16px;
-      grid-template-rows: 1fr;
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
   @for $i from 1 through 6 {
     .template-#{$i} {
       background: url("../images/blank#{$i}.png") center no-repeat;
       background-size: contain;
-    }
-  }
-
-  .editor {
-    .input-area {
-      width: 100%;
-      resize: none;
-      padding: 30px 20px 60px;
-      box-sizing: border-box;
-
-      border: 0;
     }
   }
 }

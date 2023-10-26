@@ -1,0 +1,13 @@
+.font {
+  &-style-1 {
+    @include pacifico18;
+  }
+
+  &-style-2 {
+    @include caveatBold24;
+  }
+
+  &-style-3 {
+    @include marckScript20;
+  }
+}

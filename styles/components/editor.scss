@@ -1,0 +1,27 @@
+@include mobile {
+  .editor {
+    .input-area {
+      width: 100%;
+      resize: none;
+      padding: 30px 20px 60px;
+      box-sizing: border-box;
+
+      border: 0;
+
+      text-align: center;
+      color: $blue2;
+
+      &.color-1 {
+        color: $red;
+      }
+
+      &.color-2 {
+        color: $green;
+      }
+
+      &.color-3 {
+        color: $blue2;
+      }
+    }
+  }
+}

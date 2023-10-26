@@ -13,3 +13,19 @@
 @mixin barnacleBoys32 {
   @include font(barnacleBoys, 32px, normal)
 }
+
+@mixin barnacleBoys16 {
+  @include font(barnacleBoys, 16px, normal)
+}
+
+@mixin caveatBold24 {
+  @include font(caveatBold, 24px, 100%)
+}
+
+@mixin pacifico18 {
+  @include font(pacifico, 18px, normal);
+}
+
+@mixin marckScript20 {
+  @include font(marckScript, 20px, normal);
+}

@@ -1,0 +1,67 @@
+@include mobile {
+  .buttons {
+    $width: 11.95vw;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 18px;
+
+    &-back,
+    &-color__item {
+      width: $width;
+      height: $width;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      border-radius: 50%;
+    }
+
+    &-back {
+      margin: 0 8px 0 0;
+
+      background-image: url("../images/btn-back.png");
+    }
+
+    &-ready {
+      height: $width;
+      display: flex;
+      width: 28.9vw;
+      margin-right: auto;
+
+      background: url("../images/btn-ready-disable.png") no-repeat;
+      background-size: cover;
+
+      >span {
+        @include barnacleBoys16;
+
+        display: block;
+        margin: auto;
+
+        letter-spacing: 1.9px;
+        color: $white;
+        text-transform: uppercase;
+      }
+
+      &.is-ready {
+        background: url("../images/btn-ready.png") no-repeat;
+      }
+    }
+
+    &-color {
+      display: flex;
+      gap: 0 8px;
+
+      &__item {
+        &.is-active {
+          box-shadow: 0 0 19px 0 $light-yellow;
+        }
+      }
+    }
+
+    @for $i from 1 through 3 {
+      .btn-color-#{$i} {
+        background-image: url("../images/btn-color-#{$i}.png");
+      }
+    }
+  }
+}
