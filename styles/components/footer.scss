@@ -1,0 +1,32 @@
+.footer {
+  padding: 0 0 50px;
+
+  &__text {
+    position: relative;
+
+    max-width: 227px;
+    margin: 0 0 -20px;
+
+    >img {
+      width: 100%;
+    }
+
+    >span {
+      @include chalkboard16;
+
+      position: absolute;
+      left: 50%;
+      top: 38px;
+
+      width: 80%;
+
+      color: $blue;
+      text-align: center;
+      font-weight: 700;
+
+      transform: translateX(-50%);
+    }
+  }
+
+
+}

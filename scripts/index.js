@@ -29,7 +29,8 @@ let elMain, // Главный элемент
     elButtonsColor, // Блок цветовых кнопок
     elBtnBack, // Кнопка Назад
     elBtnReady, // Кнопка готово
-    isExistButtonSubmit = false // Флаг, показывающий созадана ли кнопка отправить
+    isExistButtonSubmit = false, // Флаг, показывающий созадана ли кнопка отправить
+    elRemainCharacters // Блок для количества оставшихя символов при вводе текста
 
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
@@ -110,6 +111,9 @@ function goBack() {
 // Функция ввода тектса
 function enterText() {
     elInputArea.addEventListener('input', () => {
+        elRemainCharacters.textContent = elInputArea.value.length;
+
+        //Если юзер ввел более 20 символов, то активируем кнопку Готово
         if(elInputArea.value.length > 20) {
             elBtnReady.classList.add('is-ready');
         }
@@ -128,6 +132,7 @@ window.onload = () => {
     elButtonsColor = getElement('.js-buttons-color');
     elBtnBack = getElement('.js-btn-back');
     elBtnReady = getElement('.js-btn-ready');
+    elRemainCharacters = getElement('.js-remain-characters');
 
     setHeightMain();
 
@@ -139,11 +144,12 @@ window.onload = () => {
             elDiv.classList.add(`template-${i}`);
             elDiv.setAttribute('data-template', i);
             elChoiceTemplates.append(elDiv);
-            const goToTemplate = function () {
+            const goToTemplate = function () { // Переход на шаблон в редактор
                 elChoice.classList.add('is-hidden');
                 elEditor.classList.remove('is-hidden');
                 elInputArea.classList.add(`template-${this.dataset.template}`);
                 setRandomFontStyle();
+                elInputArea.focus();
             }
             elDiv.addEventListener('click', goToTemplate);
         }

@@ -14,10 +14,6 @@
   @include font(barnacleBoys, 32px, normal)
 }
 
-@mixin barnacleBoys16 {
-  @include font(barnacleBoys, 16px, normal)
-}
-
 @mixin caveatBold24 {
   @include font(caveatBold, 24px, 100%)
 }
@@ -28,4 +24,17 @@
 
 @mixin marckScript20 {
   @include font(marckScript, 20px, normal);
+}
+
+@mixin barnacleBoys16 {
+  @include font(barnacleBoys, 16px, normal)
+}
+
+@mixin barnacleBoys13 {
+  @include font(barnacleBoys, 13px, normal)
+}
+
+
+@mixin chalkboard16 {
+  @include font(chalkboard, 16px, normal)
 }
