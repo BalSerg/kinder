@@ -16,18 +16,18 @@
     <div class="editor js-editor is-hidden">
         <div class="buttons">
             <div class="buttons-back js-btn-back"></div>
-            <div class="buttons-ready js-btn-ready">
+            <button class="buttons-ready js-btn-ready" disabled>
                 <span>Готово</span>
-            </div>
+            </button>
             <ul class="buttons-color js-buttons-color">
                 <li class="buttons-color__item btn-color-1" data-color="1"></li>
                 <li class="buttons-color__item btn-color-2" data-color="2"></li>
                 <li class="buttons-color__item btn-color-3" data-color="3"></li>
             </ul>
         </div>
-        <div style="position: relative">
+        <div class="editor-wrapper js-editor-wrapper" >
             <textarea class="input-area js-input-area color-0" data-color="0" wrap="hard" maxlength="150"></textarea>
-            <div class="remain"><span class="js-remain-characters">0</span>/<span>150</span></div>
+            <div class="remain js-remain"><span class="js-remain-characters">0</span>/<span>150</span></div>
         </div>
         <footer class="footer js-footer">
             <div class="footer__text">

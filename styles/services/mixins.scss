@@ -26,6 +26,10 @@
   @include font(marckScript, 20px, normal);
 }
 
+@mixin barnacleBoys24 {
+  @include font(barnacleBoys, 24px, normal)
+}
+
 @mixin barnacleBoys16 {
   @include font(barnacleBoys, 16px, normal)
 }

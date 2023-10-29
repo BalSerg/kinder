@@ -1,6 +1,8 @@
 .font {
   &-style-1 {
     @include pacifico18;
+
+    letter-spacing: 1.2px;
   }
 
   &-style-2 {
@@ -9,5 +11,7 @@
 
   &-style-3 {
     @include marckScript20;
+
+    letter-spacing: 0.2px;
   }
 }

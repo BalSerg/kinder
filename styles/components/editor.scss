@@ -5,12 +5,17 @@
     justify-content: space-between;
     flex-direction: column;
 
+    &-wrapper {
+      position: relative;
+
+      margin-bottom: auto;
+    }
+
     .input-area {
       width: 100%;
       resize: none;
       padding: 30px 20px 60px;
       box-sizing: border-box;
-      margin-bottom: auto;
 
       border: 0;
 

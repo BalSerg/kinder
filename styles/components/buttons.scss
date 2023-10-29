@@ -28,7 +28,7 @@
       width: 28.9vw;
       margin-right: auto;
 
-      background: url("../images/btn-ready-disable.png") no-repeat;
+      background: url("../images/btn-ready.png") no-repeat;
       background-size: cover;
 
       >span {
@@ -42,8 +42,9 @@
         text-transform: uppercase;
       }
 
-      &.is-ready {
-        background: url("../images/btn-ready.png") no-repeat;
+      &[disabled] {
+        background: url("../images/btn-ready-disable.png") no-repeat;
+        background-size: cover;
       }
     }
 
@@ -64,4 +65,27 @@
       }
     }
   }
+
+  .submit {
+    margin-bottom: auto;
+
+    text-align: center;
+
+    >button {
+      @include barnacleBoys24;
+
+      padding: 8px 16px;
+
+      color: $white;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1.9px;
+
+      border-radius: 50px;
+      border: 5px solid #FFF;
+      background: linear-gradient(181deg, #FFAC30 -9.45%, #FD2C36 98.77%);
+      box-shadow: 0 -10px 2px 0 rgba(217, 26, 35, 0.58) inset, 0 10px 4px 0 rgba(255, 205, 27, 0.25) inset;
+    }
+  }
 }
+
