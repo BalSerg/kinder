@@ -151,7 +151,11 @@ function ready() {
     elDiv.classList.add('submit');
     elDiv.classList.add('js-submit');
     const elButton = document.createElement('button');
-    elButton.textContent = 'Отправить'
+    elButton.textContent = 'Отправить';
+    const goWall = function () {
+      window.location.href = 'wall.html';
+    }
+    elButton.addEventListener('click', goWall);
     elDiv.append(elButton);
     elEditorWrapper.append(elDiv);
     elInputArea.setAttribute('readonly', 'true');

@@ -149,16 +149,24 @@ let elWall, // Переменная для блока стены с сообще
     isCanCallSetWidthWallYesMiddle = true, // Переменная показыввающая может ли быть вызвана функция , отвечающая за установку ширины стены когда нет наведения и есть движение
     isCanCallSetWidthWallWhenHoverInMiddle = true, // Переменная показыввающая может ли быть вызвана функция setWidthWallYesHover, отвечающая за уатсновку ширины стены
     isCanCallSetWidthWallWhenHoverNoMiddle = true,
-    countElements // Переменная для количества элементов
+    countElements, // Переменная для количества элементов
+    defaultWidth = 300,
+    defaultWidthSubHover = 336,
+    defaultWidthHover = 390,
+    middleLineWidth = 370,
+    middleLineWithSubHover = 416,
+    middleLineWithHover = 485,
+    defaultMarginHor = 16;
 
-const defaultWidth = 300,
-      defaultWidthSubHover = 336,
-      defaultWidthHover = 390,
-      middleLineWidth = 370,
-      middleLineWithSubHover = 416,
-      middleLineWithHover = 485,
-      defaultMarginHor = 16,
-      defaultMarginVer = 16;
+if(window.screen.width < 768) {
+    defaultWidth = 160,
+    defaultWidthSubHover = 180,
+    defaultWidthHover = 208,
+    middleLineWidth = 195,
+    middleLineWithSubHover = 220,
+    middleLineWithHover = 485,
+    defaultMarginHor = 20;
+}
 
 // Функция устанваливает ширину контейнера с сообщениями стены, когда нет наведения на элемент И НЕТ движения
 function setWidthWallNoHoverNoMiddle() {
