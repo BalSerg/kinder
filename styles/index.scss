@@ -4,6 +4,8 @@
 @import "services/_all";
 
 @import "components/choice";
+@import "components/templates";
+@import "components/colors";
 @import "components/editor";
 @import "components/buttons";
 @import "components/fontStyles";
@@ -15,12 +17,10 @@
 
     background: url("../images/backgr.png") left bottom no-repeat;
     background-size: cover;
-  }
 
-  @for $i from 1 through 6 {
-    .template-#{$i} {
-      background: url("../images/blank#{$i}.png") center no-repeat;
-      background-size: contain;
+    &.is-ready {
+      background: url("../images/backgr2.png") left bottom no-repeat;
+      background-size: cover;
     }
   }
 

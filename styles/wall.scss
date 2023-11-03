@@ -1,0 +1,69 @@
+@import "helpers/_all";
+@import "services/_all";
+
+@import "fonts/fonts";
+@import "components/fontStyles";
+@import "components/colors";
+@import "components/templates";
+
+body {
+  overflow: hidden;
+
+  background: url("../images/backgr_base.png") center bottom no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.wall {
+  padding: 28px 26px;
+  box-sizing: border-box;
+
+
+  &__item {
+    margin: 16px;
+    box-sizing: border-box;
+    width: 300px;
+    height: 310px;
+    display: inline-flex;
+    vertical-align: middle;
+
+    text-align: center;
+
+    transition: $transition-out;
+
+    >pre {
+      margin: auto;
+    }
+
+    &.hover {
+      width: 390px;
+      height: 403px;
+
+      transition: $transition-in;
+    }
+
+    &.subHover {
+      width: 336px;
+      height: 347px;
+
+      transition: $transition-in;
+    }
+
+    &.middle-line {
+      width: 370px;
+      height: 380px;
+
+      transition: $transition-in;
+
+      &.hover {
+        width: 485px;
+        height: 500px;
+      }
+
+      &.subHover {
+        width: 416px;
+        height: 430px;
+      }
+    }
+  }
+}

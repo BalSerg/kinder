@@ -1,0 +1,6 @@
+@for $i from 1 through 6 {
+  .template-#{$i} {
+    background: url("../images/blank#{$i}.png") center no-repeat;
+    background-size: contain;
+  }
+}

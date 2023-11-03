@@ -85,7 +85,7 @@ function chooseTextColor() {
     }
   }
   arrButtonsColor.forEach((item) => {
-    elInputArea.dataset.color = '0';
+    elInputArea.dataset.color = '3'; // Это по умолчанию
     let oldColor;
     if(item.nodeType === 1) {// Текущей цветовой кнопке назанчаем класс is-active
       item.addEventListener('click', () => {
@@ -105,6 +105,7 @@ function chooseTextColor() {
 // Функция перехода назад
 function goBack() {
   elBtnBack.addEventListener('click', () => {
+    elMain.classList.remove('is-ready');
     if(getElement('.js-submit')) {
       getElement('.js-submit').remove();
       elBtnReady.classList.remove('is-hidden');
@@ -144,6 +145,7 @@ function ready() {
     elBtnReady.classList.add('is-hidden'); // скрываем кнопку Готово
     elButtonsColor.classList.add('is-hidden'); // скрываем цветовые кнопки
     elRemain.classList.add('is-hidden'); // скрываем блок с количеством оставшихся символов
+    elMain.classList.add('is-ready');
 
     const elDiv = document.createElement('div');
     elDiv.classList.add('submit');

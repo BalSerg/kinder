@@ -21,6 +21,9 @@
 @mixin pacifico18 {
   @include font(pacifico, 18px, normal);
 }
+@mixin pacifico16 {
+  @include font(pacifico, 16px, normal);
+}
 
 @mixin marckScript20 {
   @include font(marckScript, 20px, normal);
