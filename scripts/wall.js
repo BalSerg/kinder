@@ -236,7 +236,7 @@ function increaseItemsMiddleLine() {
 // Функция увеличения при наведении и увелчении соседних блоков
 function increasePointerMove() {
     arrWallItems.forEach((item, index) => {
-        item.addEventListener('pointerover', () => {
+        item.addEventListener('pointermove', () => {
             for(let jtem of arrWallItems) {
                 jtem.classList.remove('hover');
                 jtem.classList.remove('subHover');

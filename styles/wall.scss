@@ -69,7 +69,7 @@ body {
 
 @include mobile {
   body {
-    background: url("../images/backgr_base_mobile.png") center bottom no-repeat;
+    background: url("../images/backgr_base_mobile.png") left top no-repeat;
     background-size: cover;
   }
 
