@@ -8,6 +8,15 @@ function getElement(selector, parent = document) {
     }
 }
 
+function getArrayElements(selector, parent = document) {
+    const array = Array.from(parent.querySelectorAll(selector));
+    if (!array) {
+        return [];
+    }
+
+    return array;
+}
+
 const messages = [
     {
         text: 'Пусть все серое, плохое\n Старый год возьмет \n с собою.\n Впредь лишь светлые\n мгновенья\n Создают пусть настроенье!',
@@ -143,152 +152,152 @@ const messages = [
     }
 ]
 
+let newMessage = [];
 let elWall, // Переменная для блока стены с сообщениями
     arrWallItems, // Переменная для массива сообщений
-    isCanCallSetWidthWallNoMiddle = true, // Переменная показыввающая может ли быть вызвана функция , отвечающая за установку ширины стены когда нет наведения и нет движения
-    isCanCallSetWidthWallYesMiddle = true, // Переменная показыввающая может ли быть вызвана функция , отвечающая за установку ширины стены когда нет наведения и есть движение
-    isCanCallSetWidthWallWhenHoverInMiddle = true, // Переменная показыввающая может ли быть вызвана функция setWidthWallYesHover, отвечающая за уатсновку ширины стены
-    isCanCallSetWidthWallWhenHoverNoMiddle = true,
     countElements, // Переменная для количества элементов
-    defaultWidth = 300,
-    defaultWidthSubHover = 336,
-    defaultWidthHover = 390,
-    middleLineWidth = 370,
-    middleLineWithSubHover = 416,
-    middleLineWithHover = 485,
-    defaultMarginHor = 16;
+    defaultWidth = 410,
+    isDragging = false; // Переменная показывает идет ли перетаскивание
 
 if(window.screen.width < 768) {
-    defaultWidth = 160,
-    defaultWidthSubHover = 180,
-    defaultWidthHover = 208,
-    middleLineWidth = 195,
-    middleLineWithSubHover = 220,
-    middleLineWithHover = 485,
-    defaultMarginHor = 20;
-}
-
-// Функция устанваливает ширину контейнера с сообщениями стены, когда нет наведения на элемент И НЕТ движения
-function setWidthWallNoHoverNoMiddle() {
-    elWall.style.width = `${countElements * defaultWidth + countElements * defaultMarginHor *2}px`;
-    return isCanCallSetWidthWallNoMiddle = false;
-}
-
-// Функция устанваливает ширину контейнера с сообщениями стены, когда нет наведения на элемент НО ЕСТЬ движение
-function setWidthWallNoHoverYesMiddle() {
-    elWall.style.width = `${countElements * middleLineWidth + countElements * defaultMarginHor *2}px`;
-    return isCanCallSetWidthWallYesMiddle = false;
-}
-
-// Функция устанваливает ширину контейнера с сообщениями стены, когда ЕСТЬ наведение на элемент НО НЕ В СРЕДНЕЙ линии
-function setWidthWallYesHoverNoMiddle() {
-    elWall.style.width = `${
-        defaultWidth * (countElements - 3) +
-        defaultWidthHover * 1 +
-        defaultWidthSubHover * 2 +
-        countElements * defaultMarginHor *2
-    }px`;
-    return isCanCallSetWidthWallWhenHoverNoMiddle = false;
-}
-
-// Функция устанваливает ширину контейнера с сообщениями стены, когда ЕСТЬ наведение на элемент В СРЕДНЕЙ линии
-function setWidthWallYesHoverYesMiddle() {
-    elWall.style.width = `${
-        middleLineWidth * (countElements - 3) +
-        middleLineWithHover * 1 +
-        middleLineWithSubHover * 2 +
-        countElements * defaultMarginHor *2
-    }px`;
-    return isCanCallSetWidthWallWhenHoverInMiddle = false;
-}
-
-// Функция увеличивающая елементы в ряду, который пересекает середину`
-function increaseItemsMiddleLine() {
-    // Убираем у всех сообщений класс middle-line
-    for(let i=0; i<arrWallItems.length; i++) {
-        arrWallItems[i].classList.remove('middle-line');
-        arrWallItems[i].classList.remove('hover');
-        arrWallItems[i].classList.remove('subHover');
-    }
-
-    // Условие для того чтобы функция установки ширины стены вызывалась только раз при перетаскивании
-    if(isCanCallSetWidthWallYesMiddle) {
-        setWidthWallNoHoverYesMiddle();
-    }
-
-    //Добавляем к элементу класс middle-line если верхний край меньше середины, а нижний больше середины
-    let arrMiddle =[];
-    for(let i = 0; i < arrWallItems.length; i++) {
-        if(arrWallItems[i].getBoundingClientRect().top < window.screen.height /2 && arrWallItems[i].getBoundingClientRect().bottom > window.screen.height/2) {
-            arrMiddle.push(arrWallItems[i]);
-            if(arrMiddle.length > countElements) {
-                arrMiddle.pop();
-            }
-        }
-    }
-    if(arrMiddle.length >= countElements) {
-        arrMiddle.forEach((item) => {
-            item.classList.add('middle-line');
-        })
-    }
-}
-
-// Функция увеличения при наведении и увелчении соседних блоков
-function increasePointerMove() {
-    arrWallItems.forEach((item, index) => {
-        item.addEventListener('pointermove', () => {
-            for(let jtem of arrWallItems) {
-                jtem.classList.remove('hover');
-                jtem.classList.remove('subHover');
-            }
-            item.classList.add('hover');
-            if(item.classList.contains('middle-line')){
-                if(item.getBoundingClientRect().left > (middleLineWidth + defaultMarginHor *2)) {
-                    item.previousElementSibling.classList.add('subHover');
-                }
-                if(elWall.offsetWidth - item.getBoundingClientRect().right >= (middleLineWidth + defaultMarginHor *2)) {
-                    item.nextElementSibling.classList.add('subHover');
-                }
-                if(isCanCallSetWidthWallWhenHoverInMiddle) {
-                    setWidthWallYesHoverYesMiddle();
-                }
-            }
-            else {
-                if(item.getBoundingClientRect().left > (defaultWidth + defaultMarginHor *2)) {
-                    item.previousElementSibling.classList.add('subHover');
-                }
-                if(elWall.offsetWidth - item.getBoundingClientRect().right >= (defaultWidth + defaultMarginHor *2)) {
-                    item.nextElementSibling.classList.add('subHover');
-                }
-                if(isCanCallSetWidthWallWhenHoverNoMiddle) {
-                    setWidthWallYesHoverNoMiddle();
-                }
-            }
-        })
-    })
+    defaultWidth = 160;
 }
 
 window.onload = () => {
+    // Устанавливаем высоту body
+    document.body.style.height = `${document.documentElement.scrollHeight}px`;
     elWall = getElement('.js-wall');
-    countElements = Math.trunc(document.documentElement.scrollWidth / defaultWidth) + 1; // 6
-    arrWallItems = elWall.childNodes;
-    for(let i=0; i<messages.length; i++) {
-        const elDiv = document.createElement('div');
-        elDiv.classList.add(`wall__item`);
-        elDiv.classList.add(`template-${messages[i].template}`);
-        elDiv.classList.add(`color-${messages[i].color}`);
-        const elPre = document.createElement('pre');
-        elPre.textContent = `${messages[i].text}`;
-        elPre.classList.add(`font-style-${messages[i].fontStyle}`);
-        elDiv.append(elPre);
-        elWall.append(elDiv);
+
+
+    // Узнаем количество элементов в одном ряду
+    countElements = Math.trunc(document.documentElement.scrollWidth / defaultWidth) + 1;
+
+    elWall.style.width = `${defaultWidth * countElements}px`;
+
+        // Узнаем количество линий
+    let lines = Math.trunc(messages.length / countElements) + 1;
+
+
+    let newMessage = []; // Новый массив с сообщениями
+
+    // Заполнение нового массива newMessage
+    for(let i=0; i<lines; i++) {
+        let arr = [];
+        newMessage.push(arr);
+        for(let j = 0 + countElements * i; j < countElements * (i+1); j++){
+            if(messages[j]){
+                newMessage[i][j] = messages[j];
+            }
+        }
     }
-    setWidthWallNoHoverNoMiddle();
-    increasePointerMove();
+
+    for(let i=0; i<newMessage.length; i++){
+        // Создаем линии, их кол-во равно кол-ву массивов в newMessage
+        let elLine = document.createElement('div');
+        elLine.dataset.line = i.toString();
+
+        elWall.append(elLine); // Линии добавляем на стену
+
+        // Заполняем линии элементами исполбзуя массив newMessage
+        for (let j=0 + countElements * i; j < countElements * (i+1); j++) {
+            if(typeof(newMessage[i][j]) !== 'undefined') {
+                let elItem;
+                elItem = document.createElement('div');
+                elItem.classList.add('wall__item');
+                elItem.classList.add(`template-${newMessage[i][j].template}`);
+                elItem.classList.add(`color-${newMessage[i][j].color}`);
+                const elPre = document.createElement('pre');
+                elPre.textContent = `${newMessage[i][j].text}`;
+                elPre.classList.add(`font-style-${newMessage[i][j].fontStyle}`);
+                elItem.append(elPre);
+
+                if(parseInt(elLine.dataset.line, 10) === i) {
+                    elLine.append(elItem);
+                }
+            }
+        }
+    }
+
+    arrWallItems = getArrayElements('.wall__item');
+
+    let items = arrWallItems;
+
+    let h = window.innerHeight;
+    let w = window.innerWidth;
+
+    let c = items[Math.round(items.length/2)];
+    let cr = c.getBoundingClientRect();
+    window.scroll(cr.left - (w / 2)+ (cr.width / 2),
+        cr.top - (h / 2) + (cr.height / 2));
+
+    requestAnimationFrame(onScroll);
+
+    function onScroll(){
+        let pos = null, s = 0, s2 = 0;
+
+        for (let i=0; i <items.length;++i) {
+
+            pos = items[i].getBoundingClientRect();
+
+            s = (pos.top + (pos.height / 2) - (h / 2)) / h;
+            s = 1 - Math.abs(s);
+            s = (s < 0 ? 0 : (s > 1 ? 1 : s));
+
+            s2 = (pos.left + (pos.width / 2) - (w / 2)) / w;
+            s2 = 1 - Math.abs(s2);
+            s2 = (s2 < 0 ? 0 : (s2 > 1 ? 1 : s2));
+
+            s = (s + s2) / 2;
+
+            items[i].style.transform = "scale("+s+")";
+        }
+
+        requestAnimationFrame(onScroll);
+
+    }
+
+    elWall.addEventListener('pointerdown', (e) => {
+        elWall.dataset.coordx = Math.round(e.clientX);
+        elWall.dataset.coordy = Math.round(e.clientY);
+        isDragging = true;
+    })
+
+    function setCoords (pageX, pageY) {
+        let rect = elWall.getBoundingClientRect();
+        console.log(rect.right);
+        let coorLeft;
+        if(pageX - elWall.dataset.coordx > -26) {
+            coorLeft = -26;
+        }
+        /*else if(rect.right < document.documentElement.scrollWidth) {
+            coorLeft = document.documentElement.scrollWidth;
+        }*/
+        else {
+            coorLeft = pageX - elWall.dataset.coordx;
+        }
+        elWall.style.left = coorLeft + 'px';
+        elWall.style.top = pageY - elWall.dataset.coordy + 'px';
+    }
+
+    elWall.addEventListener('pointermove', (e) => {
+        if (isDragging) {
+            setCoords(e.clientX, e.clientY);
+        }
+    });
+
+    elWall.addEventListener('pointerup', (e) => {
+        isDragging = false;
+        e.currentTarget.removeEventListener('pointermove', setCoords);
+        e.currentTarget.pointermove = null;
+    })
+
+    elWall.ondragstart = function() {
+        return false;
+    };
+
+
 }
 
-window.onscroll = () => {
-    increaseItemsMiddleLine();
-}
+
 
 

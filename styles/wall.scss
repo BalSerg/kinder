@@ -18,12 +18,25 @@ body {
   padding: 28px 26px;
   box-sizing: border-box;
 
+  &-wrapper {
+    position: relative;
+    >div {
+      display: flex;
+      align-items: center;
+    }
+    /*display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;*/
+    //gap: 32px 0;
+  }
+
   &__item {
-    margin: 16px;
     box-sizing: border-box;
-    width: 300px;
-    height: 310px;
+    width: 400px;
+    height: 410px;
     display: inline-flex;
+    flex-shrink: 0;
     vertical-align: middle;
 
     text-align: center;
