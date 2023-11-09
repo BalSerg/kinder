@@ -87,5 +87,17 @@
       box-shadow: 0 -10px 2px 0 rgba(217, 26, 35, 0.58) inset, 0 10px 4px 0 rgba(255, 205, 27, 0.25) inset;
     }
   }
+
+  .btn-message {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+
+    width: 56px;
+    height: 56px;
+
+    background: url("../images/btn-go-message.png") center no-repeat;
+    background-size: cover;
+  }
 }
 

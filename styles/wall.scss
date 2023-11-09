@@ -5,8 +5,11 @@
 @import "components/fontStyles";
 @import "components/colors";
 @import "components/templates";
+@import "components/buttons";
 
 body {
+  position: relative;
+
   overflow: hidden;
 
   background: url("../images/backgr_base.png") center bottom no-repeat;
@@ -20,15 +23,17 @@ body {
 
   &-wrapper {
     position: relative;
+    left: 0;
+    top: 0;
+
+    padding: 0;
+
+    transition: $transition-in;
+
     >div {
       display: flex;
       align-items: center;
     }
-    /*display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;*/
-    //gap: 32px 0;
   }
 
   &__item {
@@ -46,37 +51,6 @@ body {
     >pre {
       margin: auto;
     }
-
-    &.hover {
-      width: 390px;
-      height: 403px;
-
-      transition: $transition-in;
-    }
-
-    &.subHover {
-      width: 336px;
-      height: 347px;
-
-      transition: $transition-in;
-    }
-
-    &.middle-line {
-      width: 370px;
-      height: 380px;
-
-      transition: $transition-in;
-
-      &.hover {
-        width: 485px;
-        height: 500px;
-      }
-
-      &.subHover {
-        width: 416px;
-        height: 430px;
-      }
-    }
   }
 }
 
@@ -89,46 +63,17 @@ body {
   .wall {
     padding: 14px 12px;
 
+    &-wrapper {
+      touch-action: none;
+    }
+
     &__item {
-      width: 160px;
-      height: 165px;
+      width: 222px;
+      height: 232px;
 
       >pre {
         width: 100%;
         font-size: 63%;
-      }
-
-      &.hover {
-        width: 208px;
-        height: 215px;
-
-        >pre {
-          font-size: 80%;
-        }
-      }
-
-      &.subHover {
-        width: 180px;
-        height: 185px;
-
-        >pre {
-          font-size: 70%;
-        }
-      }
-
-      &.middle-line {
-        width: 195px;
-        height: 200px;
-
-        &.hover {
-          width: 255px;
-          height: 260px;
-        }
-
-        &.subHover {
-          width: 220px;
-          height: 225px;
-        }
       }
     }
   }
