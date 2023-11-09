@@ -46,10 +46,13 @@ body {
 
     text-align: center;
 
-    transition: $transition-out;
-
     >pre {
       margin: auto;
+      padding: 20px;
+      box-sizing: border-box;
+      display: block;
+
+      white-space: pre-wrap;
     }
   }
 }
@@ -73,7 +76,7 @@ body {
 
       >pre {
         width: 100%;
-        font-size: 63%;
+        padding: 12px;
       }
     }
   }
