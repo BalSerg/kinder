@@ -28,7 +28,7 @@ body {
 
     padding: 0;
 
-    transition: $transition-in;
+    transition: all ease-in-out 1000ms;
 
     >div {
       display: flex;
