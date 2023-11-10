@@ -29,11 +29,25 @@ body {
     padding: 0;
 
     transition: all ease-in-out 1000ms;
+  }
 
+  .wall-bottom,
+  .wall-top {
     >div {
       display: flex;
       align-items: center;
+      justify-content: center;
     }
+  }
+
+  .wall-top {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .wall-center {
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   &__item {
