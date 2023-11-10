@@ -2,6 +2,7 @@
   .buttons {
     $width: 11.95vw;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin: 0 0 18px;
 
@@ -9,27 +10,33 @@
     &-color__item {
       width: $width;
       height: $width;
+      box-sizing: border-box;
+
 
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
       border-radius: 50%;
+      border: 6px solid rgba(255, 255, 255, 0.65);
     }
 
     &-back {
-      margin: 0 8px 0 0;
+      margin: 0 14px 0 0;
 
       background-image: url("../images/btn-back.png");
+      background-color: rgba(0, 0, 0, 0.3);
     }
 
-    &-ready {
-      height: $width;
+    &-ready,
+    &-skip {
+      height: 8.62vw;
       display: flex;
       width: 28.9vw;
       margin-right: auto;
 
-      background: url("../images/btn-ready.png") no-repeat;
-      background-size: cover;
+      border-radius: 81.5px;
+      background: radial-gradient(262.71% 100% at 50% 0%, #00D51A 0%, #01AD2C 71.67%, #009739 100%);
+      outline: 6px solid rgba(255, 255, 255, 0.65);
 
       >span {
         @include barnacleBoys16;
@@ -43,9 +50,15 @@
       }
 
       &[disabled] {
-        background: url("../images/btn-ready-disable.png") no-repeat;
-        background-size: cover;
+        background: linear-gradient(181deg, #D8E5F3 -9.45%, #BBCFE4 98.77%);
       }
+    }
+
+    &-skip {
+      margin: 0;
+      padding: 0 10px;
+      width: auto;
+      background: radial-gradient(416.87% 100% at 50% 0%, #7DB8F0 0%, #88BAE8 52.54%, #2E7CC7 100%);
     }
 
     &-color {
@@ -98,6 +111,12 @@
 
     background: url("../images/btn-go-message.png") center no-repeat;
     background-size: cover;
+  }
+
+  .pseudo-buttons {
+    position: absolute;
+    top: calc(100% + 20px);
+    left: calc((100% - 145px) /2);
   }
 }
 

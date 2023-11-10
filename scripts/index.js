@@ -26,14 +26,17 @@ let elMain, // Главный элемент
     elChoiceTemplates, // Блок с самими шаблоанми
     elEditor, // Блок редакторвания
     elEditorWrapper, // Блок поля ввода
-    elInputArea, // Поле ввода
+    elInputArea, // Блок Поля ввода
+    elInput, // Поле ввода
     valueFontStyle, // Значение для выбора стилей текста
     elButtonsColor, // Блок цветовых кнопок
     elBtnBack, // Кнопка Назад
     elBtnReady, // Кнопка готово
+    elBtnSkip, // Кнопка Пропустить
     elRemain, // Блок для количества оставшихя символов при вводе текста
     elRemainCharacters, // Количество оставшихя символов при вводе текста
-    oldTemplate // Переменная для старого шаблона у редактора
+    oldTemplate, // Переменная для старого шаблона у редактора
+    elPseudoBtn // Переменная для псевдокнопок цвета
 
 
 // Функция устанавливет размеры шаблонов в блоке выбора
@@ -52,6 +55,19 @@ function setTemplatesSizesInChoice() {
 // Функция устанавливает высоту странице
 function setHeightMain() {
   elMain.style.height = `${screen.height}px`;
+}
+
+// Функция обработки получения Фокуса полем ввода
+function focusInput() {
+  elInputArea.addEventListener('click', () => {
+    if(!getElement('.js-submit')){
+      elInput.focus();
+      elButtonsColor.classList.remove('is-hidden');
+      elBtnReady.classList.remove('is-hidden');
+      elBtnSkip.classList.add('is-hidden');
+      getElement('.js-pseudo-buttons').classList.add('is-hidden');
+    }
+  })
 }
 
 // Функция устанавливает высоту текстареа
@@ -96,7 +112,7 @@ function chooseTextColor() {
         item.classList.add('is-active');
         elInputArea.dataset.color = item.dataset.color;
         elInputArea.classList.replace(`${oldColor}`, `color-${elInputArea.dataset.color}`);
-        elInputArea.focus();
+        elInput.focus();
       })
     }
   })
@@ -110,10 +126,11 @@ function goBack() {
       getElement('.js-submit').remove();
       elBtnReady.classList.remove('is-hidden');
       elButtonsColor.classList.remove('is-hidden');
-      elInputArea.removeAttribute('readonly');
-      elInputArea.focus();
+      elInput.setAttribute('contenteditable', 'true');
+      elInput.focus();
     }
-    else {
+    else if(!getElement('.js-pseudo-buttons').classList.contains('is-hidden')) {
+      getElement('.js-pseudo-buttons').remove();
       // Скрываем редактор
       elEditor.classList.add('is-hidden');
       oldTemplate = `template-${elInputArea.dataset.template}`
@@ -121,16 +138,22 @@ function goBack() {
       // Показываем выбор шаблонов
       elChoice.classList.remove('is-hidden');
     }
+    else {
+      elBtnSkip.classList.remove('is-hidden');
+      elButtonsColor.classList.add('is-hidden');
+      elBtnReady.classList.add('is-hidden');
+      getElement('.js-pseudo-buttons').classList.remove('is-hidden');
+    }
   })
 }
 
 // Функция ввода тектса
 function enterText() {
-  elInputArea.addEventListener('input', () => {
-    elRemainCharacters.textContent = elInputArea.value.length;
+  elInput.addEventListener('input', () => {
+    elRemainCharacters.textContent = elInput.textContent.length;
 
     //Если юзер ввел более 20 символов, то активируем кнопку Готово
-    if(elInputArea.value.length > 20) {
+    if(elInput.textContent.length > 20) {
       elBtnReady.removeAttribute('disabled');
     }
     else {
@@ -158,7 +181,14 @@ function ready() {
     elButton.addEventListener('click', goWall);
     elDiv.append(elButton);
     elEditorWrapper.append(elDiv);
-    elInputArea.setAttribute('readonly', 'true');
+    elInput.removeAttribute('contenteditable');
+  })
+}
+
+// Функция обработки нажаия кнопки Пропустить
+function skip() {
+  elBtnSkip.addEventListener('click', () => {
+    window.location.href ='wall.html';
   })
 }
 
@@ -169,11 +199,14 @@ window.onload = () => {
   elEditor = getElement('.js-editor');
   elEditorWrapper = getElement('.js-editor-wrapper');
   elInputArea = getElement('.js-input-area');
+  elInput = getElement('.js-input');
   elButtonsColor = getElement('.js-buttons-color');
   elBtnBack = getElement('.js-btn-back');
+  elBtnSkip = getElement('.js-btn-skip');
   elBtnReady = getElement('.js-btn-ready');
   elRemain = getElement('.js-remain');
   elRemainCharacters = getElement('.js-remain-characters');
+  elPseudoBtn = getElement('.js-pseudo-buttons');
 
   setHeightMain();
 
@@ -188,6 +221,8 @@ window.onload = () => {
       const goToTemplate = function () { // Переход на шаблон в редактор
         elChoice.classList.add('is-hidden');
         elEditor.classList.remove('is-hidden');
+        elButtonsColor.classList.add('is-hidden');
+        elBtnReady.classList.add('is-hidden');
         elInputArea.dataset.template = this.dataset.template;
 
         if(oldTemplate) {//Если есть старый шаблон, то класс для него меняем на класс для нового шаблона
@@ -197,8 +232,12 @@ window.onload = () => {
           elInputArea.classList.add(`template-${elInputArea.dataset.template}`);
         }
 
+        let elImg = document.createElement('img');
+        elImg.src = 'images/pseudo-buttons.png';
+        elImg.classList.add('pseudo-buttons');
+        elImg.classList.add('js-pseudo-buttons');
+        elEditorWrapper.append(elImg);
         setRandomFontStyle();
-        elInputArea.focus();
       }
       elDiv.addEventListener('click', goToTemplate);
     }
@@ -206,11 +245,13 @@ window.onload = () => {
 
   createTemplates();
   setTemplatesSizesInChoice();
+  focusInput();
   setHeightInputArea();
   chooseTextColor();
   goBack();
   enterText();
   ready();
+  skip();
 }
 
 window.onresize = () => {
