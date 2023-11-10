@@ -28,7 +28,12 @@ body {
 
     padding: 0;
 
-    transition: all ease-in-out 1000ms;
+    transition: all ease-in-out 300ms;
+    cursor: grab;
+
+    &.dragging {
+      cursor: grabbing;
+    }
   }
 
   .wall-bottom,

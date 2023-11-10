@@ -29,8 +29,7 @@ let elWall, // Переменная для блока стены с сообще
     coordLeft,
     coordTop,
     elMain, // Переменная для всего main
-    elBtnMessage, // Переменная для перехода к своему сообщению
-    newMessage = [];
+    elBtnMessage; // Переменная для перехода к своему сообщению
 
 if(window.screen.width < 768) {
     defaultWidth = 222;
@@ -48,12 +47,7 @@ window.onload = () => {
     elBtnMessage = getElement('.js-btn-message');
 
     let messages = [],
-        arrWallTop = [],
-        arrWallBottom = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
-
-    let startLeft =  (window.screen.width - defaultWidth)/2;
-    let startTop =  (window.screen.height - defaultHeight)/2;
 
     fetch("https://kinder-api.brainrus.ru/list")
         .then((response) => response.json())
@@ -99,7 +93,7 @@ window.onload = () => {
             // Количество строк на центральной линией и под ней
             countLines = centralLineIndex.length;
 
-            // Заполняем среднюю линию Первые 16
+            // Заполняем среднюю линию
             for(let i=0; i<centralLineIndex.length; i++) {
                 const elDiv = document.createElement('div');
                 elDiv.classList.add('wall__item');
@@ -150,7 +144,7 @@ window.onload = () => {
                 }
             }
 
-            // Заполняем линии элементами исполбзуя массив resultBottom
+            // Заполняем линии элементами исполбзуя массив resultTop
             for(let i=0; i<resultTop.length; i++) {
                 let elLine = document.createElement('div');
                 elLine.dataset.line = i.toString();
@@ -181,6 +175,7 @@ window.onload = () => {
                 }
             }
 
+            // Заполняем линии элементами исполбзуя массив resultBottom
             for(let i=0; i<resultBottom.length; i++) {
                 let elLine = document.createElement('div');
                 elLine.dataset.line = i.toString();
@@ -212,9 +207,6 @@ window.onload = () => {
             }
 
             arrWallItems = getArrayElements('.wall__item');
-
-            elWall.style.width = `${defaultWidth * countElements}px`;
-            elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
 
             let items = arrWallItems;
 
@@ -255,6 +247,7 @@ window.onload = () => {
             elWall.addEventListener('pointerdown', (e) => {
                 elWall.dataset.coordx = Math.round(e.clientX);
                 elWall.dataset.coordy = Math.round(e.clientY);
+                elWall.classList.add('dragging');
                 isDragging = true;
             })
 
@@ -298,11 +291,16 @@ window.onload = () => {
                 e.currentTarget.pointermove = null;
                 elWall.dataset.left = coordLeft;
                 elWall.dataset.top = coordTop;
+                elWall.classList.remove('dragging');
             })
 
             elWall.ondragstart = function() {
                 return false;
             };
+
+            elWall.style.width = `${defaultWidth * countElements}px`;
+            //elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
+            //elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
 
             elBtnMessage.addEventListener('click', () => {
                 arrWallItems.forEach((item) => {
