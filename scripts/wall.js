@@ -99,7 +99,7 @@ window.onload = () => {
                 elDiv.classList.add('wall__item');
                 elDiv.classList.add(`template-${result[i].template}`);
                 elDiv.classList.add(`color-${result[i].color}`);
-                elDiv.dataset.num = result[i].id - 1;
+                elDiv.dataset.id = result[i].id;
                 if (result[i].isMy) {
                     elDiv.dataset.my = result[i].isMy;
                 }
@@ -160,6 +160,7 @@ window.onload = () => {
                         elItem.classList.add('wall__item');
                         elItem.classList.add(`template-${resultTop[i][j].template}`);
                         elItem.classList.add(`color-${resultTop[i][j].color}`);
+                        elItem.dataset.id = resultTop[i][j].id;
                         if (resultTop[i][j].isMy) {
                             elItem.dataset.my = resultTop[i][j].isMy;
                         }
@@ -191,6 +192,7 @@ window.onload = () => {
                         elItem.classList.add('wall__item');
                         elItem.classList.add(`template-${resultBottom[i][j].template}`);
                         elItem.classList.add(`color-${resultBottom[i][j].color}`);
+                        elItem.dataset.id = resultBottom[i][j].id;
                         if (resultBottom[i][j].isMy) {
                             elItem.dataset.my = resultBottom[i][j].isMy;
                         }
@@ -252,19 +254,18 @@ window.onload = () => {
             })
 
             function setCoords (pageX, pageY) {
-                /*if(parseInt(elWall.dataset.left, 10) + (Math.round(pageX) - elWall.dataset.coordx) > elMain.offsetWidth/2) {
-                    coordLeft = elMain.offsetWidth/2; // Половина видимой части
+                if(parseInt(elWall.dataset.left, 10) + (Math.round(pageX) - elWall.dataset.coordx) >= document.body.offsetWidth/2) {
+                    coordLeft = document.body.offsetWidth/2; // Половина видимой части
                 }
-                else if(elWall.offsetWidth + (parseInt(elWall.dataset.left, 10) + (Math.round(pageX) - elWall.dataset.coordx)) <= elMain.offsetWidth/2) {
+                else if(elWall.offsetWidth + (parseInt(elWall.dataset.left, 10) + (Math.round(pageX) - elWall.dataset.coordx)) < document.body.offsetWidth/2) {
                     // Половина стены + половина невидимой части стены и инверсия при помощи -1
                     coordLeft = -1*((elWall.offsetWidth - elMain.offsetWidth)/2 + elWall.offsetWidth/2);
                 }
                 else {
+                    coordLeft = parseInt(elWall.dataset.left, 10) + (Math.round(pageX) - elWall.dataset.coordx);
+                }
 
-                }*/
-                coordLeft = parseInt(elWall.dataset.left, 10) + (Math.round(pageX) - elWall.dataset.coordx);
-
-                /*if(parseInt(elWall.dataset.top, 10) + (Math.round(pageY) - elWall.dataset.coordy) > document.body.offsetHeight/2) {
+                if(parseInt(elWall.dataset.top, 10) + (Math.round(pageY) - elWall.dataset.coordy) > document.body.offsetHeight/2) {
                     coordTop = document.body.offsetHeight/2; // Половина видимой части
                 }
                 else if(parseInt(elWall.dataset.top, 10) + (Math.round(pageY) - elWall.dataset.coordy) <= -elWall.offsetHeight + document.body.offsetHeight/2) {
@@ -273,8 +274,7 @@ window.onload = () => {
                 }
                 else {
                     coordTop = parseInt(elWall.dataset.top, 10) + (Math.round(pageY) - elWall.dataset.coordy);
-                }*/
-                coordTop = parseInt(elWall.dataset.top, 10) + (Math.round(pageY) - elWall.dataset.coordy);
+                }
                 elWall.style.left = coordLeft + 'px';
                 elWall.style.top = coordTop + 'px';
             }
@@ -294,19 +294,33 @@ window.onload = () => {
                 elWall.classList.remove('dragging');
             })
 
+            elWall.addEventListener('pointerout', (e) => {
+                if(!e.currentTarget.classList.contains('js-wall')) {
+                    isDragging = false;
+                    e.currentTarget.removeEventListener('pointermove', setCoords);
+                    e.currentTarget.pointermove = null;
+                    elWall.dataset.left = coordLeft;
+                    elWall.dataset.top = coordTop;
+                    elWall.classList.remove('dragging');
+                }
+            });
+
             elWall.ondragstart = function() {
                 return false;
             };
-
-            elWall.style.width = `${defaultWidth * countElements}px`;
-            //elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
-            //elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
+            elWall.style.width = `${defaultWidth * centralLineIndex.length}px`;
+            elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
+            elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
+            elWall.dataset.left = ((document.body.offsetWidth - elWall.offsetWidth)/2).toString()
+            elWall.dataset.top = ((document.body.offsetHeight - elWall.offsetHeight)/2).toString()
 
             elBtnMessage.addEventListener('click', () => {
                 arrWallItems.forEach((item) => {
-                    if(item.dataset.my) {
+                    if(parseInt(item.dataset.id, 10) === 150) {
                         elWall.style.left = `${-1*Array.from(item.parentElement.childNodes).indexOf(item) * defaultWidth}px`;
                         elWall.style.top = `${-1*item.parentElement.dataset.line * defaultHeight}px`;
+                        elWall.dataset.left = (-1*Array.from(item.parentElement.childNodes).indexOf(item) * defaultWidth).toString();
+                        elWall.dataset.top = (-1*item.parentElement.dataset.line * defaultHeight).toString();
                     }
                 })
             })
