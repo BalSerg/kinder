@@ -17,7 +17,7 @@
       background-repeat: no-repeat;
       background-size: contain;
       border-radius: 50%;
-      border: 6px solid rgba(255, 255, 255, 0.65);
+      border: 3px solid rgba(255, 255, 255, 0.65);
     }
 
     &-back {
@@ -29,14 +29,14 @@
 
     &-ready,
     &-skip {
-      height: 8.62vw;
+      height: 10vw;
       display: flex;
       width: 28.9vw;
       margin-right: auto;
 
       border-radius: 81.5px;
       background: radial-gradient(262.71% 100% at 50% 0%, #00D51A 0%, #01AD2C 71.67%, #009739 100%);
-      outline: 6px solid rgba(255, 255, 255, 0.65);
+      outline: 3px solid rgba(255, 255, 255, 0.65);
 
       >span {
         @include barnacleBoys16;

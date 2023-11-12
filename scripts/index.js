@@ -38,7 +38,6 @@ let elMain, // Главный элемент
     oldTemplate, // Переменная для старого шаблона у редактора
     elPseudoBtn // Переменная для псевдокнопок цвета
 
-
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
   elChoiceTemplates.childNodes.forEach((item) => {
@@ -66,6 +65,7 @@ function focusInput() {
       elBtnReady.classList.remove('is-hidden');
       elBtnSkip.classList.add('is-hidden');
       getElement('.js-pseudo-buttons').classList.add('is-hidden');
+      elInput.focus();
     }
   })
 }
@@ -121,13 +121,13 @@ function chooseTextColor() {
 // Функция перехода назад
 function goBack() {
   elBtnBack.addEventListener('click', () => {
-    elMain.classList.remove('is-ready');
     if(getElement('.js-submit')) {
       getElement('.js-submit').remove();
       elBtnReady.classList.remove('is-hidden');
       elButtonsColor.classList.remove('is-hidden');
       elInput.setAttribute('contenteditable', 'true');
-      elInput.focus();
+      elMain.classList.remove('is-ready')
+      elInput.focus()
     }
     else if(!getElement('.js-pseudo-buttons').classList.contains('is-hidden')) {
       getElement('.js-pseudo-buttons').remove();
