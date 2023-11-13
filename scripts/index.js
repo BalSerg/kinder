@@ -36,7 +36,8 @@ let elMain, // Главный элемент
     elRemain, // Блок для количества оставшихя символов при вводе текста
     elRemainCharacters, // Количество оставшихя символов при вводе текста
     oldTemplate, // Переменная для старого шаблона у редактора
-    elPseudoBtn // Переменная для псевдокнопок цвета
+    elPseudoBtn, // Переменная для псевдокнопок цвета
+    arrFooterText // Переменная для текстов в подвале
 
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
@@ -127,7 +128,9 @@ function goBack() {
       elButtonsColor.classList.remove('is-hidden');
       elInput.setAttribute('contenteditable', 'true');
       elMain.classList.remove('is-ready')
-      elInput.focus()
+      elInput.focus();
+      arrFooterText[0].classList.remove('is-hidden');
+      arrFooterText[1].classList.add('is-hidden');
     }
     else if(!getElement('.js-pseudo-buttons').classList.contains('is-hidden')) {
       getElement('.js-pseudo-buttons').remove();
@@ -143,6 +146,8 @@ function goBack() {
       elButtonsColor.classList.add('is-hidden');
       elBtnReady.classList.add('is-hidden');
       getElement('.js-pseudo-buttons').classList.remove('is-hidden');
+      arrFooterText[1].classList.remove('is-hidden');
+      arrFooterText[0].classList.add('is-hidden');
     }
   })
 }
@@ -182,6 +187,8 @@ function ready() {
     elDiv.append(elButton);
     elEditorWrapper.append(elDiv);
     elInput.removeAttribute('contenteditable');
+    arrFooterText[0].classList.add('is-hidden');
+    arrFooterText[1].classList.remove('is-hidden');
   })
 }
 
@@ -207,6 +214,7 @@ window.onload = () => {
   elRemain = getElement('.js-remain');
   elRemainCharacters = getElement('.js-remain-characters');
   elPseudoBtn = getElement('.js-pseudo-buttons');
+  arrFooterText = getArrayElements('.js-text-footer');
 
   setHeightMain();
 

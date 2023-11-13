@@ -1,5 +1,7 @@
 @include mobile {
   .choice {
+    position: relative;
+
     &__title {
       @include barnacleBoys32;
 

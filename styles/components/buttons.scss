@@ -24,7 +24,6 @@
       margin: 0 14px 0 0;
 
       background-image: url("../images/btn-back.png");
-      background-color: rgba(0, 0, 0, 0.3);
     }
 
     &-ready,
@@ -95,9 +94,8 @@
       letter-spacing: 1.9px;
 
       border-radius: 50px;
-      border: 5px solid #FFF;
-      background: linear-gradient(181deg, #FFAC30 -9.45%, #FD2C36 98.77%);
-      box-shadow: 0 -10px 2px 0 rgba(217, 26, 35, 0.58) inset, 0 10px 4px 0 rgba(255, 205, 27, 0.25) inset;
+      outline: 4px solid rgba(255, 255, 255, 0.65);
+      background: radial-gradient(316.04% 98.65% at 50% 0%, #FF3A3A 0%, #E71010 100%);
     }
   }
 

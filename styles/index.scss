@@ -24,20 +24,6 @@
       background: url("../images/backgr2.png") left bottom no-repeat;
       background-size: cover;
     }
-
-    &:before{
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      height: 100px;
-      width: 100%;
-      display: block;
-
-      opacity: 0.5619;
-      //background: linear-gradient(180deg, #012556 0%, #158CE5 100%);
-      background: linear-gradient(0deg, #002454 0%, rgba(0, 36, 84, 0.00) 50%);
-    }
   }
 
   .remain {
