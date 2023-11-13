@@ -36,8 +36,8 @@ let elMain, // Главный элемент
     elRemain, // Блок для количества оставшихя символов при вводе текста
     elRemainCharacters, // Количество оставшихя символов при вводе текста
     oldTemplate, // Переменная для старого шаблона у редактора
-    elPseudoBtn, // Переменная для псевдокнопок цвета
-    arrFooterText // Переменная для текстов в подвале
+    arrFooterText, // Переменная для текстов в подвале
+    a
 
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
@@ -136,7 +136,9 @@ function goBack() {
       getElement('.js-pseudo-buttons').remove();
       // Скрываем редактор
       elEditor.classList.add('is-hidden');
-      oldTemplate = `template-${elInputArea.dataset.template}`
+
+      window.localStorage.clear();
+      oldTemplate = `template-${elInputArea.dataset.template}`;
 
       // Показываем выбор шаблонов
       elChoice.classList.remove('is-hidden');
@@ -181,6 +183,7 @@ function ready() {
     const elButton = document.createElement('button');
     elButton.textContent = 'Отправить';
     const goWall = function () {
+      window.localStorage.setItem('name-template', elInputArea.dataset.template.toString());
       window.location.href = 'wall.html';
     }
     elButton.addEventListener('click', goWall);
@@ -199,6 +202,28 @@ function skip() {
   })
 }
 
+// Функция проверки адреса. Пришли мы на index из wall
+function checkUrl() {
+  const url = window.location.toString();
+  if(url.includes('wall')) {
+    elChoice.classList.add('is-hidden');
+    elEditor.classList.remove('is-hidden');
+    elBtnReady.classList.add('is-hidden');
+    elButtonsColor.classList.add('is-hidden');
+
+    let elImg = document.createElement('img');
+    elImg.src = 'images/pseudo-buttons.png';
+    elImg.classList.add('pseudo-buttons');
+    elImg.classList.add('js-pseudo-buttons');
+    elEditorWrapper.append(elImg);
+    if(window.localStorage.getItem('name-template')) {
+      elInputArea.dataset.template = window.localStorage.getItem('name-template');
+      elInputArea.classList.add(`template-${elInputArea.dataset.template}`);
+    }
+  }
+}
+
+
 window.onload = () => {
   elMain = getElement('.js-main');
   elChoice = getElement('.js-choice');
@@ -213,7 +238,6 @@ window.onload = () => {
   elBtnReady = getElement('.js-btn-ready');
   elRemain = getElement('.js-remain');
   elRemainCharacters = getElement('.js-remain-characters');
-  elPseudoBtn = getElement('.js-pseudo-buttons');
   arrFooterText = getArrayElements('.js-text-footer');
 
   setHeightMain();
@@ -260,6 +284,7 @@ window.onload = () => {
   enterText();
   ready();
   skip();
+  checkUrl();
 }
 
 window.onresize = () => {

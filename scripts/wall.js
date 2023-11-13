@@ -22,18 +22,24 @@ let elWall, // Переменная для блока стены с сообще
     elWallCenter, // Переменная для блока, где есть элементы центра
     elWallBottom, // Переменная для блока, где есть элементы снизу от центра
     arrWallItems, // Переменная для массива сообщений
-    countElements, // Переменная для количества элементов
     defaultWidth = 400,
     defaultHeight = 410,
     isDragging = false, // Переменная показывает идет ли перетаскивание
     coordLeft,
     coordTop,
     elMain, // Переменная для всего main
-    elBtnMessage; // Переменная для перехода к своему сообщению
+    elBtnMessage, // Переменная для перехода к своему сообщению
+    elBtnBack; // Переменная для кнопки назад
 
 if(window.screen.width < 768) {
     defaultWidth = 222;
     defaultHeight = 232;
+}
+
+function goBack() {
+    elBtnBack.addEventListener('click', () => {
+        window.location.href ="index.html?from_wall";
+    })
 }
 
 window.onload = () => {
@@ -45,6 +51,7 @@ window.onload = () => {
     elWallBottom = getElement('.js-wall-bottom');
     elMain = getElement('.js-main');
     elBtnMessage = getElement('.js-btn-message');
+    elBtnBack = getElement('.js-btn-back');
 
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
@@ -331,7 +338,9 @@ window.onload = () => {
 
     setTimeout(() => {
         window.scrollTo(0, 0);
-    }, 2500)
+    }, 2500);
+
+    goBack();
 }
 
 

@@ -13,7 +13,7 @@
     flex-shrink: 0;
 
     >img {
-      height: 100%;
+      width: 100%;
     }
 
     >span {
@@ -24,7 +24,7 @@
       top: 50%;
 
       width: 100%;
-      padding: 0 0 0 10px;
+      padding: 0 20px 0 30px;
       box-sizing: border-box;
 
       color: $blue;
@@ -32,6 +32,10 @@
       font-weight: 700;
 
       transform: translate(-50%, -50%);
+
+      +span {
+        padding: 0 0 0 10px;
+      }
 
       >span {
         color: $red2;

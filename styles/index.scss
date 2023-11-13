@@ -23,6 +23,15 @@
     &.is-ready {
       background: url("../images/backgr2.png") left bottom no-repeat;
       background-size: cover;
+
+      .footer {
+        &__text {
+          >img {
+            height: 100%;
+            width: auto;
+          }
+        }
+      }
     }
   }
 
