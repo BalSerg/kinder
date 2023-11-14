@@ -169,6 +169,14 @@ function enterText() {
   })
 }
 
+
+// Функция сохрнения в localStorage данных о стилях поля ввода текста
+function saveStyleInputArea() {
+  window.localStorage.setItem('name-template', elInputArea.dataset.template.toString());
+  window.localStorage.setItem('fontStyle', elInputArea.dataset.valueFontStyle.toString());
+  window.localStorage.setItem('color', elInputArea.dataset.color.toString());
+}
+
 // Функция обработки нажатия кнопки Готово
 function ready() {
   elBtnReady.addEventListener('click', () => {
@@ -183,8 +191,9 @@ function ready() {
     const elButton = document.createElement('button');
     elButton.textContent = 'Отправить';
     const goWall = function () {
-      window.localStorage.setItem('name-template', elInputArea.dataset.template.toString());
-      window.location.href = 'wall.html';
+      saveStyleInputArea();
+      window.localStorage.setItem('isGoFromWall', 'true');
+      window.location.href ='wall.html';
     }
     elButton.addEventListener('click', goWall);
     elDiv.append(elButton);
@@ -198,14 +207,15 @@ function ready() {
 // Функция обработки нажаия кнопки Пропустить
 function skip() {
   elBtnSkip.addEventListener('click', () => {
+    window.localStorage.setItem('isGoFromWall', 'true');
+    saveStyleInputArea();
     window.location.href ='wall.html';
   })
 }
 
-// Функция проверки адреса. Пришли мы на index из wall
+// Функция проверки пришли ли мы на index из wall
 function checkUrl() {
-  const url = window.location.toString();
-  if(url.includes('wall')) {
+  if(window.localStorage.getItem('isGoFromWall')) {
     elChoice.classList.add('is-hidden');
     elEditor.classList.remove('is-hidden');
     elBtnReady.classList.add('is-hidden');
@@ -220,9 +230,21 @@ function checkUrl() {
       elInputArea.dataset.template = window.localStorage.getItem('name-template');
       elInputArea.classList.add(`template-${elInputArea.dataset.template}`);
     }
+    if(window.localStorage.getItem('fontStyle')) {
+      elInputArea.dataset.valueFontStyle = window.localStorage.getItem('fontStyle');
+      elInputArea.classList.add(`font-style-${elInputArea.dataset.valueFontStyle}`);
+    }
+    if(window.localStorage.getItem('color')) {
+      const oldColor = `color-${elInputArea.dataset.color}`;
+
+      elInputArea.dataset.color = window.localStorage.getItem('color');
+      elInputArea.classList.add(`color-${elInputArea.dataset.color}`);
+      elInputArea.classList.replace(`${oldColor}`, `color-${elInputArea.dataset.color}`);
+    }
+
+    window.localStorage.clear();
   }
 }
-
 
 window.onload = () => {
   elMain = getElement('.js-main');

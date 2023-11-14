@@ -38,7 +38,7 @@ if(window.screen.width < 768) {
 
 function goBack() {
     elBtnBack.addEventListener('click', () => {
-        window.location.href ="index.html?from_wall";
+        window.location.href ="index.html";
     })
 }
 
