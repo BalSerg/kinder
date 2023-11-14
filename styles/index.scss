@@ -11,6 +11,10 @@
 @import "components/fontStyles";
 @import "components/footer";
 
+body {
+  overflow: hidden;
+}
+
 @include mobile {
   .main {
     position: relative;
