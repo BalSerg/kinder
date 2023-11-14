@@ -76,6 +76,212 @@
         background-image: url("../images/btn-color-#{$i}.png");
       }
     }
+
+    &-message,
+    &-gift {
+      position: absolute;
+      bottom: 20px;
+
+      width: 56px;
+      height: 56px;
+      display: flex;
+      box-sizing: border-box;
+
+      border: 4px solid rgba(255, 255, 255, 0.50);
+      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.17);
+      border-radius: 50%;
+
+      >div{
+        width: 48px;
+        height: 48px;
+        margin: auto;
+        display: flex;
+
+        border-radius: 50%;
+        background: radial-gradient(56.06% 56.02% at 36.87% 50%, #FF4242 0.03%, #E61010 99.95%);
+
+        &:before {
+          display: block;
+          margin: auto;
+
+          content: "";
+        }
+      }
+    }
+
+    &-message {
+      left: 16px;
+
+      >div {
+        &:before {
+          width: 29px;
+          height: 27px;
+          margin: auto;
+
+          background: url("../images/btn-message.png") center no-repeat;
+          background-size: cover;
+        }
+      }
+    }
+
+    &-gift {
+      right: 16px;
+
+      >div {
+        &:after {
+          position: absolute;
+          left: calc((56px - 120px) / 2 - 11px);
+          top: calc((56px - 120px) / 2 - 11px);
+
+          width: 120px;
+          height: 120px;
+          display: block;
+
+          background: url("../images/flash.png");
+          background-size: cover;
+
+          content: "";
+
+          animation: explosion 2s ease-in, blink 2s infinite ease-in-out 2s;
+          animation-fill-mode: forwards;
+          transform: scale(0);
+
+          @keyframes blink {
+            0% {
+              opacity: 1;
+            }
+            10% {
+              opacity: 0.8;
+            }
+            20% {
+              opacity: 0.6;
+            }
+            30% {
+              opacity: 0.6;
+            }
+            40% {
+              opacity: 0.6;
+            }
+            50% {
+              opacity: 0.8;
+            }
+            60% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 1;
+            }
+
+          }
+
+          @keyframes explosion {
+            0% {
+              transform: scale(0);
+            }
+            30% {
+              transform: scale(1);
+            }
+            100% {
+              transform: scale(1);
+            }
+          }
+        }
+
+        &:before {
+          position: relative;
+          z-index: 1;
+
+          width: 46px;
+          height: 48px;
+
+          background: url("../images/btn-box.png") center no-repeat;
+          background-size: cover;
+
+          animation:swing  2s infinite ease-in;
+
+          @keyframes swing {
+            0% {
+              transform: rotate(0deg);
+            }
+            10% {
+              transform: rotate(10deg);
+            }
+            20% {
+              transform: rotate(20deg);
+            }
+            30% {
+              transform: rotate(10deg);
+            }
+            40% {
+              transform: rotate(0deg);
+            }
+            50% {
+              transform: rotate(-10deg);
+            }
+            60% {
+              transform: rotate(-20deg);
+            }
+            70% {
+              transform: rotate(-10deg);
+            }
+            80% {
+              transform: rotate(0deg);
+            }
+            90% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(0deg);
+            }
+          }
+        }
+      }
+    }
+
+    &-finger {
+      position: absolute;
+      right: calc(16px + 56px + 10px);
+      bottom: 26px;
+
+      width: 51px;
+      height: 36px;
+
+      background: url("../images/btn-finger.png");
+      background-size: cover;
+
+      animation: move 2s infinite ease-in-out;
+      transform: translateX(0px);
+
+      @keyframes move{
+        0% {
+          transform: translateX(0px);
+        }
+        10% {
+          transform: translateX(10px);
+        }
+        10% {
+          transform: translateX(-10px);
+        }
+        20% {
+          transform: translateX(10px);
+        }
+        30% {
+          transform: translateX(-10px);
+        }
+        40% {
+          transform: translateX(10px);
+        }
+        50% {
+          transform: translateX(-10px);
+        }
+        60% {
+          transform: translateX(0px);
+        }
+        100% {
+          transform: translateX(0px);
+        }
+      }
+    }
   }
 
   .submit {
@@ -97,18 +303,6 @@
       outline: 4px solid rgba(255, 255, 255, 0.65);
       background: radial-gradient(316.04% 98.65% at 50% 0%, #FF3A3A 0%, #E71010 100%);
     }
-  }
-
-  .btn-message {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-
-    width: 56px;
-    height: 56px;
-
-    background: url("../images/btn-go-message.png") center no-repeat;
-    background-size: cover;
   }
 
   .pseudo-buttons {
