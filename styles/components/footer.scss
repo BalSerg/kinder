@@ -1,51 +1,11 @@
 .footer {
-  padding: 0 0 50px;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  flex-direction: row-reverse;
+  padding: 0 0 20px;
 
-  &__text {
-    position: relative;
-
-    max-width: 227px;
-    width: 71%;
-    flex-shrink: 0;
-
-    >img {
-      width: 100%;
-    }
-
-    >span {
-      @include chalkboard14;
-
-      position: absolute;
-      left: 50%;
-      top: 50%;
-
-      width: 100%;
-      padding: 0 20px 0 30px;
-      box-sizing: border-box;
-
-      color: $blue;
-      text-align: center;
-      font-weight: 700;
-
-      transform: translate(-50%, -50%);
-
-      +span {
-        padding: 0 0 0 10px;
-      }
-
-      >span {
-        color: $red2;
-      }
-    }
-  }
+  text-align: center;
 
   >img {
-    max-width: 103px;
-    width: 29%;
-    min-width: 50px;
+    max-width: 330px;
+    width: 92%;
+
   }
 }

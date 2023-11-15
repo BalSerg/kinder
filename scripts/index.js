@@ -36,8 +36,7 @@ let elMain, // Главный элемент
     elRemain, // Блок для количества оставшихя символов при вводе текста
     elRemainCharacters, // Количество оставшихя символов при вводе текста
     oldTemplate, // Переменная для старого шаблона у редактора
-    arrFooterText, // Переменная для текстов в подвале
-    a
+    elFooterImg; // Переменная для картинки в футере
 
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
@@ -54,7 +53,7 @@ function setTemplatesSizesInChoice() {
 
 // Функция устанавливает высоту странице
 function setHeightMain() {
-  elMain.style.height = `${screen.height}px`;
+  elMain.style.height = `${window.screen.height - 22 - 22}px`;
 }
 
 // Функция обработки получения Фокуса полем ввода
@@ -127,10 +126,9 @@ function goBack() {
       elBtnReady.classList.remove('is-hidden');
       elButtonsColor.classList.remove('is-hidden');
       elInput.setAttribute('contenteditable', 'true');
-      elMain.classList.remove('is-ready')
+      elMain.classList.remove('is-ready');
+      elFooterImg.src = 'images/footer_img1.png';
       elInput.focus();
-      arrFooterText[0].classList.remove('is-hidden');
-      arrFooterText[1].classList.add('is-hidden');
     }
     else if(!getElement('.js-pseudo-buttons').classList.contains('is-hidden')) {
       getElement('.js-pseudo-buttons').remove();
@@ -148,8 +146,6 @@ function goBack() {
       elButtonsColor.classList.add('is-hidden');
       elBtnReady.classList.add('is-hidden');
       getElement('.js-pseudo-buttons').classList.remove('is-hidden');
-      arrFooterText[1].classList.remove('is-hidden');
-      arrFooterText[0].classList.add('is-hidden');
     }
   })
 }
@@ -160,7 +156,7 @@ function enterText() {
     elRemainCharacters.textContent = elInput.textContent.length;
 
     //Если юзер ввел более 20 символов, то активируем кнопку Готово
-    if(elInput.textContent.length > 20) {
+    if(elInput.textContent.length > 5) {
       elBtnReady.removeAttribute('disabled');
     }
     else {
@@ -168,7 +164,6 @@ function enterText() {
     }
   })
 }
-
 
 // Функция сохрнения в localStorage данных о стилях поля ввода текста
 function saveStyleInputArea() {
@@ -184,23 +179,24 @@ function ready() {
     elButtonsColor.classList.add('is-hidden'); // скрываем цветовые кнопки
     elRemain.classList.add('is-hidden'); // скрываем блок с количеством оставшихся символов
     elMain.classList.add('is-ready');
+    elFooterImg.src = 'images/footer_img2.png';
 
     const elDiv = document.createElement('div');
     elDiv.classList.add('submit');
     elDiv.classList.add('js-submit');
     const elButton = document.createElement('button');
-    elButton.textContent = 'Отправить';
     const goWall = function () {
       saveStyleInputArea();
       window.localStorage.setItem('isGoFromWall', 'true');
       window.location.href ='wall.html';
     }
+    const innerDiv = document.createElement('div');
+    innerDiv.textContent = 'Отправить';
+    elButton.append(innerDiv);
     elButton.addEventListener('click', goWall);
     elDiv.append(elButton);
     elEditorWrapper.append(elDiv);
     elInput.removeAttribute('contenteditable');
-    arrFooterText[0].classList.add('is-hidden');
-    arrFooterText[1].classList.remove('is-hidden');
   })
 }
 
@@ -220,6 +216,7 @@ function checkUrl() {
     elEditor.classList.remove('is-hidden');
     elBtnReady.classList.add('is-hidden');
     elButtonsColor.classList.add('is-hidden');
+    elFooterImg.src = 'images/footer_img1.png';
 
     let elImg = document.createElement('img');
     elImg.src = 'images/pseudo-buttons.png';
@@ -260,7 +257,7 @@ window.onload = () => {
   elBtnReady = getElement('.js-btn-ready');
   elRemain = getElement('.js-remain');
   elRemainCharacters = getElement('.js-remain-characters');
-  arrFooterText = getArrayElements('.js-text-footer');
+  elFooterImg = getElement('.js-footer-img');
 
   setHeightMain();
 
