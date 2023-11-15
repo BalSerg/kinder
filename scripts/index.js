@@ -53,7 +53,7 @@ function setTemplatesSizesInChoice() {
 
 // Функция устанавливает высоту странице
 function setHeightMain() {
-  elMain.style.height = `${window.screen.height - 22 - 22}px`;
+  elMain.style.height = `${document.documentElement.scrollHeight}px`;
 }
 
 // Функция обработки получения Фокуса полем ввода
