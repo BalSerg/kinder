@@ -38,7 +38,7 @@ let elMain, // Главный элемент
     oldTemplate, // Переменная для старого шаблона у редактора
     elFooterImg; // Переменная для картинки в футере
 
-// Функция устанавливет размеры шаблонов в блоке выбора
+// Функция устанавливает размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
   elChoiceTemplates.childNodes.forEach((item) => {
     //item.style.width = (elChoice.offsetWidth - 16 * 3) /2 + 'px';
@@ -188,7 +188,45 @@ function ready() {
     const goWall = function () {
       saveStyleInputArea();
       window.localStorage.setItem('isGoFromWall', 'true');
-      window.location.href ='wall.html';
+
+      /**
+       * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
+       */
+      const form = new FormData();
+      form.append("template", 1);
+      form.append("font_style", 1);
+      form.append("color", 1);
+      form.append("text", "OLOLO, TROLOLO");
+
+      /**
+       * TODO: ПЕРЕД ФЕТЧЕМ НАДО ВКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
+       */
+      fetch(`https://kinder-api.brainrus.ru/add`, {
+        method: "post",
+        body: form,
+      })
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            }
+
+            throw res;
+          })
+          .then((json) => {
+            if (json.result === true) {
+              /**
+               * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
+               */
+              window.location.href ='wall.html';
+            }
+
+            throw new Error("Ошибка добавления записи");
+          })
+          .catch(() => {
+            /**
+             * TODO: ПОКАЗАТЬ КАКОЕ-ТО СООБЩЕНИЕ НА СЛУЧАЙ ОШИБКИ
+             */
+          });
     }
     const innerDiv = document.createElement('div');
     innerDiv.textContent = 'Отправить';
