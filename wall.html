@@ -8,8 +8,14 @@
     <script src="scripts/wall.js"></script>
 </head>
 <body>
+<audio
+        id="audio-bird1"
+        preload="auto"
+        crossorigin="anonymous"
+        src="audio/bird1.mp3"
+></audio>
 <main class="wall js-main">
-    <div class="buttons">
+    <div class="buttons js-buttons">
         <div class="buttons-back js-btn-back"></div>
     </div>
     <div class="wall-wrapper js-wall" data-coord-x = "0" data-coord-y="0" data-left="0" data-top="0">
@@ -20,15 +26,31 @@
     <div class="buttons-message js-btn-message">
         <div></div>
     </div>
-    <div class="buttons-gift">
+    <div class="buttons-gift js-btn-gift">
         <div></div>
     </div>
-    <div class="buttons-finger"></div>
-    <div class="loader js-loader">
-        <div class="loader-title">Загрузка...</div>
-        <div class="loader-track">
-            <div class="loader-thumb"></div>
+    <div class="buttons-finger js-finger"></div>
+    <div class="loader-backgr js-loader">
+        <div class="loader">
+            <div class="loader-title">Загрузка...</div>
+            <div class="loader-track">
+                <div class="loader-thumb"></div>
+            </div>
         </div>
+    </div>
+    <div class="flight js-flight is-hidden">
+        <div class="flight-track">
+            <img src="images/track.png" alt=""/>
+            <div class="flight-object">
+                <img src="images/bird.png" alt="">
+                <img src="images/buble.png" class="flight-bubble" alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="end js-end is-hidden">
+        <a href="#" class="end-wrapper">
+            <div class="end-close js-close"></div>
+        </a>
     </div>
 </main>
 </body>

@@ -30,16 +30,55 @@ let elWall, // Переменная для блока стены с сообще
     elMain, // Переменная для всего main
     elBtnMessage, // Переменная для перехода к своему сообщению
     elBtnBack, // Переменная для кнопки назад
-    elLoader; // Переменная для прелоадера
+    elButtons, // Переменная для блока кнопок вверху
+    elLoader, // Переменная для прелоадера
+    elBtnGift, // Переменная для кнопки подарок
+    elFinger, // Переменная для элемента палец
+    elFlight, // Переменная для блока со снегирем
+    elEnd,
+    elClose;
 
 if(window.screen.width < 768) {
     defaultWidth = 222;
     defaultHeight = 232;
 }
 
+// Функция обработки нажатия кнопки назад
 function goBack() {
     elBtnBack.addEventListener('click', () => {
         window.location.href ="index.html";
+    })
+}
+
+// Функция обработки нажатия кнопки с подаррком
+function clickGift () {
+    elBtnGift.addEventListener('click', () => {
+        const audioBird1 = document.querySelector("#audio-bird1");
+        if(audioBird1) {
+            audioBird1.play();
+        }
+        elMain.classList.add('is-final-stage');
+        elWall.classList.add('is-hidden');
+        elButtons.classList.add('is-hidden');
+        elBtnMessage.classList.add('is-hidden');
+        elBtnGift.classList.add('is-hidden');
+        elFinger.classList.add('is-hidden');
+        elFlight.classList.remove('is-hidden');
+    })
+}
+
+// Функция показа последнего состояния
+function showEnd() {
+    setTimeout(() => {
+        elFlight.classList.add('is-hidden');
+        elEnd.classList.remove('is-hidden');
+    }, 12000)
+}
+
+// Функция обработки нажатия крестика
+function clickClose() {
+    elClose.addEventListener('click', () => {
+
     })
 }
 
@@ -53,7 +92,13 @@ window.onload = () => {
     elMain = getElement('.js-main');
     elBtnMessage = getElement('.js-btn-message');
     elBtnBack = getElement('.js-btn-back');
+    elButtons = getElement('.js-buttons');
     elLoader = getElement('.js-loader');
+    elBtnGift = getElement('.js-btn-gift');
+    elFinger = getElement('.js-finger');
+    elFlight = getElement('.js-flight');
+    elEnd = getElement('.js-end');
+    elClose = getElement('.js-close');
 
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
@@ -356,6 +401,9 @@ window.onload = () => {
     }, 2500);
 
     goBack();
+    clickGift();
+    showEnd();
+    clickClose();
 }
 
 
