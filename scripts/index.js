@@ -18,6 +18,57 @@ function getArrayElements(selector, parent = document) {
   return array;
 }
 
+const forbiddenChars = [
+  '@', '#', '№', '$', '%', '&', '~', '_', '`'
+]
+const badWords = [
+  'хуй',
+  'х уй',
+  'ху й',
+  'х у й',
+  'х!у!й',
+  'х ! у ! й',
+  'х-у-й',
+  'х - у - й',
+  'х?у?й',
+  'х ? у ? й',
+  'ахуй',
+  'ехуй',
+  'охуй',
+  'ихуй',
+  'ехуй',
+  'ухуй',
+  'ахуй',
+  'ахуй',
+  'пизд',
+  'чмо',
+  'ч м о',
+  'ч-м-о',
+  'ч - м - о',
+  'ч м о',
+  'ч ! м ! о',
+  'ч!м!о',
+  'ч?м?о',
+  'ч ? м ? о',
+  'чмыр',
+  'ч м ы р',
+  'еб',
+  'е б',
+  'е!б!',
+  'е ! б !',
+  'е?б?',
+  'е ? б ?',
+  'е-б',
+  'е - б',
+  'ёб',
+  'ё б',
+  'ё!б!',
+  'ё ! б !',
+  'ё?б?',
+  'ё ? б ?',
+  'ё-б',
+  'ё - б',
+]
 const countTemplates = 6;// Количество шаблонов
 const randomNumber = Math.round(Math.random() * 100) / 100;
 
@@ -37,6 +88,19 @@ let elMain, // Главный элемент
     elRemainCharacters, // Количество оставшихя символов при вводе текста
     oldTemplate, // Переменная для старого шаблона у редактора
     elFooterImg; // Переменная для картинки в футере
+
+// Функция постановки курсора в конец строки
+function setCursorToEndString(){
+  const range = document.createRange();
+  const selection = window.getSelection() || null;
+  if (selection) {
+    range.selectNodeContents(elInput);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    elInput.focus();
+  }
+}
 
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
@@ -60,12 +124,13 @@ function setHeightMain() {
 function focusInput() {
   elInputArea.addEventListener('click', () => {
     if(!getElement('.js-submit')){
-      elInput.focus();
       elButtonsColor.classList.remove('is-hidden');
       elBtnReady.classList.remove('is-hidden');
       elBtnSkip.classList.add('is-hidden');
       getElement('.js-pseudo-buttons').classList.add('is-hidden');
-      elInput.focus();
+      if(elInput.textContent.length) {
+        setCursorToEndString();
+      }
     }
   })
 }
@@ -112,7 +177,7 @@ function chooseTextColor() {
         item.classList.add('is-active');
         elInputArea.dataset.color = item.dataset.color;
         elInputArea.classList.replace(`${oldColor}`, `color-${elInputArea.dataset.color}`);
-        elInput.focus();
+        setCursorToEndString();
       })
     }
   })
@@ -128,7 +193,7 @@ function goBack() {
       elInput.setAttribute('contenteditable', 'true');
       elMain.classList.remove('is-ready');
       elFooterImg.src = 'images/footer_img1.png';
-      elInput.focus();
+      setCursorToEndString();
     }
     else if(!getElement('.js-pseudo-buttons').classList.contains('is-hidden')) {
       getElement('.js-pseudo-buttons').remove();
@@ -162,6 +227,35 @@ function enterText() {
     else {
       elBtnReady.setAttribute('disabled', 'disabled');
     }
+
+    // Не даем вводить символы из массива forbiddenChars
+    forbiddenChars.forEach((item) => {
+      if(elInput.textContent.includes(item)) {
+        elInput.textContent = elInput.textContent.replace(item, '');
+        setCursorToEndString();
+      }
+    })
+    // Проверяем на наличие плохих слов
+    // И если есть не даем нажать готово и выделяем плохое слово
+    badWords.forEach((item) => {
+      if(elInput.textContent.toLowerCase().includes(item)){
+        elBtnReady.setAttribute('disabled', 'true');
+        const startAlarm = elInput.textContent.indexOf(item);
+        let endAlarm;
+        if(elInput.textContent.indexOf(" ", startAlarm) === -1) {
+          endAlarm = elInput.textContent.length;
+        }
+        else {
+          console.log(2, elInput.textContent.indexOf(' ', startAlarm));
+          endAlarm = elInput.textContent.indexOf(' ', startAlarm);
+        }
+        const badText = elInput.textContent.substring(startAlarm, endAlarm);
+        const badFull = `<span>${elInput.textContent.substring(startAlarm, endAlarm)}</span>`;
+        console.log(badText, badFull);
+        elInput.innerHTML = elInput.textContent.replace(badText, badFull);
+        setCursorToEndString();
+      }
+    })
   })
 }
 
@@ -210,7 +304,7 @@ function skip() {
 }
 
 // Функция проверки пришли ли мы на index из wall
-function checkUrl() {
+function checkIsGoFromWall() {
   if(window.localStorage.getItem('isGoFromWall')) {
     elChoice.classList.add('is-hidden');
     elEditor.classList.remove('is-hidden');
@@ -303,7 +397,7 @@ window.onload = () => {
   enterText();
   ready();
   skip();
-  checkUrl();
+  checkIsGoFromWall();
 }
 
 window.onresize = () => {

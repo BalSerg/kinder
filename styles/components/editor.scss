@@ -25,6 +25,11 @@
 
       >div {
         margin: auto;
+
+        > span {
+          border-bottom: 2px solid red;
+          color: $red;
+        }
       }
     }
   }

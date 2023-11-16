@@ -5,7 +5,8 @@
     &__title {
       @include barnacleBoys32;
 
-      margin: 0 0 46px;
+      margin: 0 auto 46px;
+      max-width: 290px;
 
       text-align: center;
       color: $white;
