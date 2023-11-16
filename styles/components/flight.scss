@@ -1,0 +1,28 @@
+.flight {
+  margin: auto;
+  width: 80%;
+
+  &-track {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 1.2;
+
+    >img {
+      position: absolute;
+
+      width: 100%;
+      aspect-ratio: 1.2;
+    }
+  }
+
+  &-object {
+    position: absolute;
+    top: 10%;
+    left: -10%;
+
+    > img {
+      width: 52%;
+    }
+  }
+}

@@ -71,6 +71,7 @@ const badWords = [
 ]
 const countTemplates = 6;// Количество шаблонов
 const randomNumber = Math.round(Math.random() * 100) / 100;
+const maxLength = 150; // Максимальное кол-во символов для ввода
 
 let elMain, // Главный элемент
     elChoice, // Блок выбора шаблонов
@@ -87,7 +88,8 @@ let elMain, // Главный элемент
     elRemain, // Блок для количества оставшихя символов при вводе текста
     elRemainCharacters, // Количество оставшихя символов при вводе текста
     oldTemplate, // Переменная для старого шаблона у редактора
-    elFooterImg; // Переменная для картинки в футере
+    elFooterImg, // Переменная для картинки в футере
+    elLoader; // Переменная для лоадера
 
 // Функция постановки курсора в конец строки
 function setCursorToEndString(){
@@ -129,6 +131,10 @@ function focusInput() {
       elBtnSkip.classList.add('is-hidden');
       getElement('.js-pseudo-buttons').classList.add('is-hidden');
       if(elInput.textContent.length) {
+        console.log(1, elInput.textContent.length);
+        elInput.focus();
+      }
+      else {
         setCursorToEndString();
       }
     }
@@ -191,6 +197,7 @@ function goBack() {
       elBtnReady.classList.remove('is-hidden');
       elButtonsColor.classList.remove('is-hidden');
       elInput.setAttribute('contenteditable', 'true');
+      elRemain.classList.remove('is-hidden');
       elMain.classList.remove('is-ready');
       elFooterImg.src = 'images/footer_img1.png';
       setCursorToEndString();
@@ -216,8 +223,8 @@ function goBack() {
 }
 
 // Функция ввода тектса
-function enterText() {
-  elInput.addEventListener('input', () => {
+function enterText(e) {
+  elInput.addEventListener('input', (e) => {
     elRemainCharacters.textContent = elInput.textContent.length;
 
     //Если юзер ввел более 20 символов, то активируем кнопку Готово
@@ -226,6 +233,17 @@ function enterText() {
     }
     else {
       elBtnReady.setAttribute('disabled', 'disabled');
+    }
+
+    // Если юзер ввел более 150 символов , то больше не даем вводить
+    if(elInput.textContent.length > maxLength-1) {
+      elInput.textContent = elInput.textContent.substr(0, maxLength-1);
+      setCursorToEndString();
+    }
+
+    // Устанавливаем высоту всего блока ввода для непосредственно места ввода
+    if(elInput.offsetHeight >= elInputArea.offsetHeight - 30 - 60) {
+      elInput.style.height = `${elInputArea.offsetHeight - 30 - 60}px`;
     }
 
     // Не даем вводить символы из массива forbiddenChars
@@ -287,14 +305,17 @@ function ready() {
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
        */
       const form = new FormData();
-      form.append("template", 1);
-      form.append("font_style", 1);
-      form.append("color", 1);
-      form.append("text", "OLOLO, TROLOLO");
+      form.append("template", elInputArea.dataset.template);
+      form.append("font_style", elInputArea.dataset.valueFontStyle);
+      form.append("color", elInputArea.dataset.color);
+      form.append("text", elInput.textContent);
 
       /**
        * TODO: ПЕРЕД ФЕТЧЕМ НАДО ВКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
        */
+
+      elLoader.classList.remove('is-hidden');
+
       fetch(`https://kinder-api.brainrus.ru/add`, {
         method: "post",
         body: form,
@@ -311,6 +332,7 @@ function ready() {
               /**
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
+              elLoader.classList.add('is-hidden');
               window.location.href ='wall.html';
             }
 
@@ -390,6 +412,7 @@ window.onload = () => {
   elRemain = getElement('.js-remain');
   elRemainCharacters = getElement('.js-remain-characters');
   elFooterImg = getElement('.js-footer-img');
+  elLoader = getElement('.js-loader');
 
   setHeightMain();
 

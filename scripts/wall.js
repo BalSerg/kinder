@@ -29,7 +29,8 @@ let elWall, // Переменная для блока стены с сообще
     coordTop,
     elMain, // Переменная для всего main
     elBtnMessage, // Переменная для перехода к своему сообщению
-    elBtnBack; // Переменная для кнопки назад
+    elBtnBack, // Переменная для кнопки назад
+    elLoader; // Переменная для прелоадера
 
 if(window.screen.width < 768) {
     defaultWidth = 222;
@@ -52,6 +53,7 @@ window.onload = () => {
     elMain = getElement('.js-main');
     elBtnMessage = getElement('.js-btn-message');
     elBtnBack = getElement('.js-btn-back');
+    elLoader = getElement('.js-loader');
 
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
@@ -59,6 +61,8 @@ window.onload = () => {
     fetch("https://kinder-api.brainrus.ru/list")
         .then((response) => response.json())
         .then((result) => {
+
+            elLoader.classList.add('is-hidden');
 
             let halfCountItemsFromResult,
                 countLines,
@@ -89,7 +93,16 @@ window.onload = () => {
                 }
             }
 
-            centralLineIndex = [...arrLineFrom4.reverse(), 4, 0, 1, 8, ...arrLineFrom8];
+            const startIndex = [4, 0, 1, 8]; // Индексы центральных элементов
+            const arrLineForm4To8 = []
+
+            for(let item of startIndex) {
+                if(result[item]){
+                    arrLineForm4To8.push(item);
+                }
+            }
+
+            centralLineIndex = [...arrLineFrom4.reverse(), ...arrLineForm4To8, ...arrLineFrom8];
             if((result.length - centralLineIndex.length) % 2 === 0) {
                 halfCountItemsFromResult = (result.length - centralLineIndex.length) / 2;
             }
@@ -102,19 +115,21 @@ window.onload = () => {
 
             // Заполняем среднюю линию
             for(let i=0; i<centralLineIndex.length; i++) {
-                const elDiv = document.createElement('div');
-                elDiv.classList.add('wall__item');
-                elDiv.classList.add(`template-${result[i].template}`);
-                elDiv.classList.add(`color-${result[i].color}`);
-                elDiv.dataset.id = result[i].id;
-                if (result[i].isMy) {
-                    elDiv.dataset.my = result[i].isMy;
+                if(result[i]){
+                    const elDiv = document.createElement('div');
+                    elDiv.classList.add('wall__item');
+                    elDiv.classList.add(`template-${result[i].template}`);
+                    elDiv.classList.add(`color-${result[i].color}`);
+                    elDiv.dataset.id = result[i].id;
+                    if (result[i].isMy) {
+                        elDiv.dataset.my = result[i].isMy;
+                    }
+                    const elPre = document.createElement('pre');
+                    elPre.textContent = `${result[i].text}`;
+                    elPre.classList.add(`font-style-${result[i].font_style}`);
+                    elDiv.append(elPre);
+                    elWallCenter.append(elDiv);
                 }
-                const elPre = document.createElement('pre');
-                elPre.textContent = `${result[i].text}`;
-                elPre.classList.add(`font-style-${result[i].font_style}`);
-                elDiv.append(elPre);
-                elWallCenter.append(elDiv);
             }
 
             let arrTop = [];

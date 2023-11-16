@@ -25,6 +25,8 @@
 
       >div {
         margin: auto;
+        word-break: break-word;
+        overflow: hidden;
 
         > span {
           border-bottom: 2px solid red;
