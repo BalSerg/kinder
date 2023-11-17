@@ -397,6 +397,26 @@ function checkIsGoFromWall() {
   }
 }
 
+// const preloader = document.querySelector(".preloader");
+
+const resize = () => {
+  if(window.screen.width < 1024) {
+    const { clientWidth, clientHeight } = document.documentElement;
+    const orientation = document.getElementById("orientation");
+
+    if (clientWidth > clientHeight) {
+      orientation.style.display = "flex";
+    } else {
+      orientation.style.display = "none";
+    }
+
+    /*if (preloader) {
+        preloader.style.height = window.innerHeight + "px";
+    }*/
+  }
+
+};
+
 window.onload = () => {
   elMain = getElement('.js-main');
   elChoice = getElement('.js-choice');
@@ -465,4 +485,7 @@ window.onresize = () => {
   setHeightMain();
   setTemplatesSizesInChoice();
   setHeightInputArea();
+  resize();
 }
+
+window.addEventListener("orientationchange", resize);

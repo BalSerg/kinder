@@ -1,0 +1,58 @@
+#orientation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: #000000;
+  /*background-image: url("assets/images/rotate_bg.jpg");*/
+  /*background-position: center;*/
+  /*background-repeat: no-repeat;*/
+  /*background-size: cover;*/
+
+  z-index: 9999999;
+}
+
+#orientation img {
+  -webkit-animation: blink5 5s linear infinite;
+  animation: blink5 5s linear infinite;
+
+  /*height: 100%;*/
+  /*width: auto;*/
+
+  width: 30%;
+  height: auto;
+}
+
+@-webkit-keyframes blink5 {
+  0% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes blink5 {
+  0% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}

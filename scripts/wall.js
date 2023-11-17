@@ -64,23 +64,52 @@ function clickGift () {
         elBtnGift.classList.add('is-hidden');
         elFinger.classList.add('is-hidden');
         elFlight.classList.remove('is-hidden');
+        showEnd();
     })
 }
 
 // Функция показа последнего состояния
 function showEnd() {
     setTimeout(() => {
-        elFlight.classList.add('is-hidden');
-        elEnd.classList.remove('is-hidden');
-    }, 12000)
+        if(!elFlight.classList.contains('is-hidden')){
+            elFlight.classList.add('is-hidden');
+            elEnd.classList.remove('is-hidden');
+        }
+    }, 5000)
 }
 
 // Функция обработки нажатия крестика
 function clickClose() {
     elClose.addEventListener('click', () => {
-
+        elEnd.classList.add('is-hidden');
+        elWall.classList.remove('is-hidden');
+        elButtons.classList.remove('is-hidden');
+        elBtnGift.classList.remove('is-hidden');
+        elFinger.classList.remove('is-hidden');
+        elBtnMessage.classList.remove('is-hidden');
     })
 }
+
+// const preloader = document.querySelector(".preloader");
+
+const resize = () => {
+    if(window.screen.width < 768) {
+        const { clientWidth, clientHeight } = document.documentElement;
+        const orientation = document.getElementById("orientation");
+
+        if (clientWidth > clientHeight) {
+            orientation.style.display = "flex";
+        } else {
+            orientation.style.display = "none";
+        }
+
+        /*if (preloader) {
+            preloader.style.height = window.innerHeight + "px";
+        }*/
+    }
+
+};
+
 
 window.onload = () => {
     // Устанавливаем высоту body
@@ -402,9 +431,11 @@ window.onload = () => {
 
     goBack();
     clickGift();
-    showEnd();
     clickClose();
 }
+
+window.addEventListener("resize", resize);
+window.addEventListener("orientationchange", resize);
 
 
 
