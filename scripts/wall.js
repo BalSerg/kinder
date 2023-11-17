@@ -36,7 +36,13 @@ let elWall, // Переменная для блока стены с сообще
     elFinger, // Переменная для элемента палец
     elFlight, // Переменная для блока со снегирем
     elEnd,
-    elClose;
+    elClose,
+    messageObj ={
+        template: '',
+        color: '',
+        font_style: '',
+        text: ''
+    };
 
 if(window.screen.width < 768) {
     defaultWidth = 222;
@@ -129,6 +135,13 @@ window.onload = () => {
     elEnd = getElement('.js-end');
     elClose = getElement('.js-close');
 
+    messageObj.template = window.localStorage.templateMessage;
+    messageObj.color = window.localStorage.colorMessage;
+    messageObj.font_style = window.localStorage.fontStyleMessage;
+    messageObj.text = window.localStorage.textMessage;
+
+    console.log(messageObj);
+
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
 
@@ -143,6 +156,7 @@ window.onload = () => {
                 resultTop = [],
                 resultBottom = [];
 
+            result.push(messageObj);
             messages = result;
 
             // Для центральной линии

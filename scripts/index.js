@@ -300,6 +300,10 @@ function ready() {
     const goWall = function () {
       saveStyleInputArea();
       window.localStorage.setItem('isGoFromWall', 'true');
+      window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
+      window.localStorage.setItem('colorMessage', `${elInputArea.dataset.color}`);
+      window.localStorage.setItem('fontStyleMessage', `${elInputArea.dataset.valueFontStyle}`);
+      window.localStorage.setItem('textMessage', `${elInput.textContent}`);
 
       /**
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
