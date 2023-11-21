@@ -68,7 +68,63 @@ const badWords = [
   'ё ? б ?',
   'ё-б',
   'ё - б',
+  'бляд',
+  'б л я д',
+  'б!л!я!д',
+  'б ! л ! я ! д',
+  'б?л?я?д',
+  'б ? л ? я ? д',
+  'б-л-я-д',
+  'б - л - я - д',
+  'сука',
+  'с у к а',
+  'с!у!к!а',
+  'с ! у ! к ! а',
+  'с?у?к?а',
+  'с ? у ? к ? а',
+  'с-у-к-а',
+  'с - у - к - а',
+  'дура',
+  'д у р а',
+  'д!у!р!а',
+  'д ! у ! р ! а',
+  'д?у?р?а',
+  'д ? у ? р ? а',
+  'д-у-р-а',
+  'д - у - р - а',
+  'пизд',
+  'п и з д',
+  'п!и!з!д',
+  'п ! и ! з ! д',
+  'п?и?з?д',
+  'п ? и ? з ? д',
+  'п-и-з-д',
+  'п - и - з - д',
+  'п е з д',
+  'п!е!з!д',
+  'п ! е ! з ! д',
+  'п?е?з?д',
+  'п ? е ? з ? д',
+  'п-е-з-д',
+  'п - е - з - д',
+  'муда',
+  'м у д а',
+  'м!у!д!а',
+  'м ! у ! д ! а',
+  'м?у?д?а',
+  'м ? у ? д ? а',
+  'м-у-д-а',
+  'м - у - д - а',
+  'говн',
+  'г о в н',
+  'г!о!в!н',
+  'г ! о ! в ! н',
+  'г?о?в?н',
+  'г ? о ? в ? н',
+  'г-о-в-н',
+  'г - о - в - н',
 ]
+
 const countTemplates = 6;// Количество шаблонов
 const randomNumber = Math.round(Math.random() * 100) / 100;
 const maxLength = 150; // Максимальное кол-во символов для ввода
@@ -131,7 +187,6 @@ function focusInput() {
       elBtnSkip.classList.add('is-hidden');
       getElement('.js-pseudo-buttons').classList.add('is-hidden');
       if(elInput.textContent.length) {
-        console.log(1, elInput.textContent.length);
         elInput.focus();
       }
       else {
@@ -222,12 +277,53 @@ function goBack() {
   })
 }
 
+function changeTagOnBr(){
+  const selection = window.getSelection(),
+      range = selection.getRangeAt(0),
+      node = document.getSelection().anchorNode,
+      pNode = node.parentNode;
+  let tag = pNode.nodeName.toUpperCase();
+  switch(tag) {
+    case 'P':
+      tag = 'BR';
+      break;
+
+    case 'DIV':
+      tag = 'BR';
+      break;
+  }
+
+  const el = document.createElement( tag );
+
+  range.deleteContents();
+  range.insertNode(el);
+
+  if ('BR'===tag) {
+    range.setStartAfter(el);
+    range.setEndAfter(el);
+  } else {
+    range.setStart(el, 0);
+    range.setEnd(el, 0);
+  }
+
+  const ze = document.createTextNode("\u200B");
+  range.insertNode(ze);
+  range.setStartBefore(ze);
+  range.setEndBefore(ze);
+
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
 // Функция ввода тектса
-function enterText(e) {
+function enterText() {
+  let isSelectedBadWord = false;
+  let badText = '';
+
   elInput.addEventListener('input', (e) => {
     elRemainCharacters.textContent = elInput.textContent.length;
 
-    //Если юзер ввел более 20 символов, то активируем кнопку Готово
+    //Если юзер ввел более 5 символов, то активируем кнопку Готово
     if(elInput.textContent.length > 5) {
       elBtnReady.removeAttribute('disabled');
     }
@@ -255,25 +351,44 @@ function enterText(e) {
     })
     // Проверяем на наличие плохих слов
     // И если есть не даем нажать готово и выделяем плохое слово
+
     badWords.forEach((item) => {
       if(elInput.textContent.toLowerCase().includes(item)){
         elBtnReady.setAttribute('disabled', 'true');
         const startAlarm = elInput.textContent.indexOf(item);
+        let startPos;
+        if(startAlarm === 0) {
+          startPos = 0;
+        }
+        else {
+          startPos = elInput.textContent.lastIndexOf(' ', startAlarm) + 1;
+        }
         let endAlarm;
         if(elInput.textContent.indexOf(" ", startAlarm) === -1) {
           endAlarm = elInput.textContent.length;
         }
         else {
-          console.log(2, elInput.textContent.indexOf(' ', startAlarm));
           endAlarm = elInput.textContent.indexOf(' ', startAlarm);
         }
-        const badText = elInput.textContent.substring(startAlarm, endAlarm);
-        const badFull = `<span>${elInput.textContent.substring(startAlarm, endAlarm)}</span>`;
-        console.log(badText, badFull);
+        badText = elInput.textContent.substring(startPos, endAlarm);
+        const badFull = `<span>${elInput.textContent.substring(startPos, endAlarm)}</span>`;
         elInput.innerHTML = elInput.textContent.replace(badText, badFull);
+        isSelectedBadWord = true;
         setCursorToEndString();
       }
     })
+
+    if(e.inputType === 'deleteContentBackward' && isSelectedBadWord) {
+      let str = elInput.innerHTML.toString();
+      if(!str.includes(badText)) {
+        let textBeforeSpan = str.substring(0, str.indexOf('<span'));
+        let textInSpan = str.substring(str.indexOf('<span') + 6, str.indexOf('</span'));
+        let textAfterSpan = str.substr(str.indexOf('</span') + 7);
+        console.log(textBeforeSpan, textInSpan, textAfterSpan);
+        elInput.innerHTML = textBeforeSpan + textInSpan + textAfterSpan;
+        setCursorToEndString();
+      }
+    }
   })
 }
 
@@ -483,6 +598,19 @@ window.onload = () => {
   ready();
   skip();
   checkIsGoFromWall();
+
+  /*elInput.addEventListener('keydown', (e) => {
+    if(e.keyCode === 8) {
+      if(elInput.innerHTML.toString().includes('<spa')) {
+        let textBeforeSpan = elInput.innerHTML.toString().substring(0, elInput.innerHTML.toString().indexOf('<spa'));
+        let textAfterSpan = elInput.innerHTML.toString().substr(elInput.innerHTML.toString().indexOf('</') + 7);
+        let textInSpan = elInput.innerHTML.toString().substring(textBeforeSpan.length + 6, elInput.innerHTML.toString().indexOf('</'));
+        console.log(textBeforeSpan, textInSpan, textAfterSpan);
+        elInput.textContent = textBeforeSpan + textInSpan + textAfterSpan;
+        setCursorToEndString();
+      }
+    }
+  })*/
 }
 
 window.onresize = () => {
