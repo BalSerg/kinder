@@ -140,8 +140,6 @@ window.onload = () => {
     messageObj.font_style = window.localStorage.fontStyleMessage;
     messageObj.text = window.localStorage.textMessage;
 
-    console.log(messageObj);
-
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
 
@@ -213,7 +211,7 @@ window.onload = () => {
                         elDiv.dataset.my = result[i].isMy;
                     }
                     const elPre = document.createElement('pre');
-                    elPre.textContent = `${result[i].text}`;
+                    elPre.innerHTML = `${result[i].text}`;
                     elPre.classList.add(`font-style-${result[i].font_style}`);
                     elDiv.append(elPre);
                     elWallCenter.append(elDiv);
@@ -275,7 +273,7 @@ window.onload = () => {
                             elItem.dataset.my = resultTop[i][j].isMy;
                         }
                         const elPre = document.createElement('pre');
-                        elPre.textContent = `${resultTop[i][j].text}`;
+                        elPre.innerHTML = `${resultTop[i][j].text}`;
                         elPre.classList.add(`font-style-${resultTop[i][j].font_style}`);
                         elItem.append(elPre);
 
@@ -307,7 +305,7 @@ window.onload = () => {
                             elItem.dataset.my = resultBottom[i][j].isMy;
                         }
                         const elPre = document.createElement('pre');
-                        elPre.textContent = `${resultBottom[i][j].text}`;
+                        elPre.innerHTML = `${resultBottom[i][j].text}`;
                         elPre.classList.add(`font-style-${resultBottom[i][j].font_style}`);
                         elItem.append(elPre);
 

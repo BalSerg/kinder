@@ -352,9 +352,9 @@ function enterText() {
         setCursorToEndString();
       }
     })
+
     // Проверяем на наличие плохих слов
     // И если есть не даем нажать готово и выделяем плохое слово
-
     badWords.forEach((item) => {
       if(elInput.textContent.toLowerCase().includes(item)){
         elBtnReady.setAttribute('disabled', 'true');
@@ -364,7 +364,12 @@ function enterText() {
           startPos = 0;
         }
         else {
-          startPos = elInput.textContent.lastIndexOf(' ', startAlarm) + 1;
+          if(elInput.textContent.lastIndexOf(' ', startAlarm) === -1) {
+            startPos = startAlarm;
+          }
+          else {
+            startPos = elInput.textContent.lastIndexOf(' ', startAlarm) + 1;
+          }
         }
         let endAlarm;
         if(elInput.textContent.indexOf(" ", startAlarm) === -1) {
@@ -374,21 +379,31 @@ function enterText() {
           endAlarm = elInput.textContent.indexOf(' ', startAlarm);
         }
         badText = elInput.textContent.substring(startPos, endAlarm);
-        const badFull = `<span>${elInput.textContent.substring(startPos, endAlarm)}</span>`;
+        const badFull = `${elInput.textContent.substring(startPos, endAlarm)}`;
         elInput.innerHTML = elInput.textContent.replace(badText, badFull);
         isSelectedBadWord = true;
         setCursorToEndString();
       }
     })
 
+    // Если нажали BackSpace и уже было плохое слово в тексте, то исправив плохой текст
+    // убираем и обертку span
     if(e.inputType === 'deleteContentBackward' && isSelectedBadWord) {
       let str = elInput.innerHTML.toString();
       if(!str.includes(badText)) {
         let textBeforeSpan = str.substring(0, str.indexOf('<span'));
         let textInSpan = str.substring(str.indexOf('<span') + 6, str.indexOf('</span'));
         let textAfterSpan = str.substr(str.indexOf('</span') + 7);
-        console.log(textBeforeSpan, textInSpan, textAfterSpan);
         elInput.innerHTML = textBeforeSpan + textInSpan + textAfterSpan;
+        setCursorToEndString();
+      }
+    }
+  })
+
+  elInput.addEventListener('keydown', (e) => {
+    if(e.keyCode === 13){
+      if(elInput.offsetHeight >= elInputArea.offsetHeight - 50 - 60) {
+        e.preventDefault();
         setCursorToEndString();
       }
     }
@@ -421,7 +436,7 @@ function ready() {
       window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
       window.localStorage.setItem('colorMessage', `${elInputArea.dataset.color}`);
       window.localStorage.setItem('fontStyleMessage', `${elInputArea.dataset.valueFontStyle}`);
-      window.localStorage.setItem('textMessage', `${elInput.textContent}`);
+      window.localStorage.setItem('textMessage', `${elInput.innerHTML}`);
 
       /**
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
@@ -430,7 +445,7 @@ function ready() {
       form.append("template", elInputArea.dataset.template);
       form.append("font_style", elInputArea.dataset.valueFontStyle);
       form.append("color", elInputArea.dataset.color);
-      form.append("text", elInput.textContent);
+      form.append("text", elInput.innerHTML);
 
       /**
        * TODO: ПЕРЕД ФЕТЧЕМ НАДО ВКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
