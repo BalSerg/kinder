@@ -1,3 +1,15 @@
+@import "../services/mixins";
+@import "../services/variables";
 .is-hidden {
   display: none !important;
+}
+
+.is-mobile {
+  display: none;
+}
+
+@include mobile {
+  .is-mobile {
+    display: block;
+  }
 }

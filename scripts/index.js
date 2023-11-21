@@ -162,15 +162,18 @@ function setCursorToEndString(){
 
 // Функция устанавливет размеры шаблонов в блоке выбора
 function setTemplatesSizesInChoice() {
-  elChoiceTemplates.childNodes.forEach((item) => {
-    //item.style.width = (elChoice.offsetWidth - 16 * 3) /2 + 'px';
-    if(!elChoice.classList.contains('is-hidden')) {
-      item.style.height = (elChoice.offsetWidth - 16 * 3) /2 + 'px';
-    }
-    if(!elEditor.classList.contains('is-hidden')) {
-      item.style.height = (elEditor.offsetWidth - 16 * 3) /2 + 'px';
-    }
-  });
+  if(window.screen.width < 767) {
+    elChoiceTemplates.childNodes.forEach((item) => {
+      //item.style.width = (elChoice.offsetWidth - 16 * 3) /2 + 'px';
+      if(!elChoice.classList.contains('is-hidden')) {
+        item.style.height = (elChoice.offsetWidth - 16 * 3) /2 + 'px';
+      }
+      if(!elEditor.classList.contains('is-hidden')) {
+        item.style.height = (elEditor.offsetWidth - 16 * 3) /2 + 'px';
+      }
+    });
+  }
+
 }
 
 // Функция устанавливает высоту странице
