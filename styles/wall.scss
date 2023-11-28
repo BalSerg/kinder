@@ -17,6 +17,7 @@ body {
 
   background: url("../images/backgr_base.png") center bottom no-repeat;
   background-size: cover;
+  background-color: red;
   height: 100%;
 }
 
@@ -84,7 +85,7 @@ body {
 
     -ms-user-select: none;
 
-    >pre {
+    pre {
       margin: auto;
       padding: 20px;
       box-sizing: border-box;
@@ -99,6 +100,7 @@ body {
   body {
     background: url("../images/backgr_base_mobile.png") left top no-repeat;
     background-size: cover;
+    background-color: red;
   }
 
   .wall {
@@ -112,9 +114,22 @@ body {
       width: 222px;
       height: 232px;
 
-      >pre {
+      .pre-wrap {
+        width: calc(100% - 24px);
+        height: calc(100% - 24px);
+        overflow: hidden;
+        display: flex;
+        box-sizing: border-box;
+        margin: auto;
+      }
+
+      pre {
         width: 100%;
-        padding: 12px;
+        padding: 0;
+        height: fit-content;
+        white-space: pre-wrap;
+        display: block;
+        margin: auto;
       }
     }
   }

@@ -210,10 +210,13 @@ window.onload = () => {
                     if (result[i].isMy) {
                         elDiv.dataset.my = result[i].isMy;
                     }
+                    const elPreWrap = document.createElement('div');
+                    elPreWrap.classList.add('pre-wrap');
                     const elPre = document.createElement('pre');
                     elPre.innerHTML = `${result[i].text}`;
                     elPre.classList.add(`font-style-${result[i].font_style}`);
-                    elDiv.append(elPre);
+                    elPreWrap.append(elPre);
+                    elDiv.append(elPreWrap);
                     elWallCenter.append(elDiv);
                 }
             }
@@ -272,10 +275,13 @@ window.onload = () => {
                         if (resultTop[i][j].isMy) {
                             elItem.dataset.my = resultTop[i][j].isMy;
                         }
+                        const elPreWrap = document.createElement('div');
+                        elPreWrap.classList.add('pre-wrap');
                         const elPre = document.createElement('pre');
                         elPre.innerHTML = `${resultTop[i][j].text}`;
                         elPre.classList.add(`font-style-${resultTop[i][j].font_style}`);
-                        elItem.append(elPre);
+                        elPreWrap.append(elPre);
+                        elItem.append(elPreWrap);
 
                         if (parseInt(elLine.dataset.line, 10) === i) {
                             elLine.append(elItem);
@@ -304,10 +310,13 @@ window.onload = () => {
                         if (resultBottom[i][j].isMy) {
                             elItem.dataset.my = resultBottom[i][j].isMy;
                         }
+                        const elPreWrap = document.createElement('div');
+                        elPreWrap.classList.add('pre-wrap');
                         const elPre = document.createElement('pre');
                         elPre.innerHTML = `${resultBottom[i][j].text}`;
                         elPre.classList.add(`font-style-${resultBottom[i][j].font_style}`);
-                        elItem.append(elPre);
+                        elPreWrap.append(elPre);
+                        elItem.append(elPreWrap);
 
                         if (parseInt(elLine.dataset.line, 10) === i) {
                             elLine.append(elItem);
@@ -353,6 +362,8 @@ window.onload = () => {
                 requestAnimationFrame(onScroll);
 
             }
+
+            window.scrollTo(0, 0);
 
             elWall.addEventListener('pointerdown', (e) => {
                 elWall.dataset.coordx = Math.round(e.clientX);
@@ -416,11 +427,15 @@ window.onload = () => {
             elWall.ondragstart = function() {
                 return false;
             };
+
+
+
+
             elWall.style.width = `${defaultWidth * centralLineIndex.length}px`;
             elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
             elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
-            elWall.dataset.left = ((document.body.offsetWidth - elWall.offsetWidth)/2).toString()
-            elWall.dataset.top = ((document.body.offsetHeight - elWall.offsetHeight)/2).toString()
+            elWall.dataset.left = ((document.body.offsetWidth - elWall.offsetWidth)/2).toString();
+            elWall.dataset.top = ((document.body.offsetHeight - elWall.offsetHeight)/2).toString();
 
             elBtnMessage.addEventListener('click', () => {
                 arrWallItems.forEach((item) => {
