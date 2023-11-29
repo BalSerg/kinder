@@ -466,11 +466,12 @@ function ready() {
           })
           .then((json) => {
             if (json.result === true) {
+              alert(json.uuid)
               /**
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
-              elLoader.classList.add('is-hidden');
-              window.location.href ='wall.html';
+                elLoader.classList.add('is-hidden');
+                window.location.href ='wall.html';
             }
 
             throw new Error("Ошибка добавления записи");
