@@ -157,6 +157,7 @@ window.onload = () => {
             result.push(messageObj);
             messages = result;
 
+
             // Для центральной линии
             let arrLineFrom4 = [],
                 arrLineFrom8 = [];
@@ -199,6 +200,23 @@ window.onload = () => {
             // Количество строк на центральной линией и под ней
             countLines = centralLineIndex.length;
 
+            result.forEach((item) => {
+                if(!item.uuid){ // Если у элемента нет uuid , то назначаем ему из localStorage
+                    item.uuid = window.localStorage.getItem('uuid');
+                }
+
+                // Элемент у которого uuid совпадаем с тем который лежит в localStorage ставим на центральное место,
+                // а на место ставим центральный
+                if(item.uuid === window.localStorage.getItem('uuid')) {
+                    console.log(result[Math.trunc(centralLineIndex.length/2)], item, result.indexOf(item));
+
+                    let temp = result[Math.trunc(centralLineIndex.length/2)];
+                    let index = result.indexOf(item);
+                    result[Math.trunc(centralLineIndex.length/2)] = item;
+                    result[index] = temp;
+                }
+            })
+
             // Заполняем среднюю линию
             for(let i=0; i<centralLineIndex.length; i++) {
                 if(result[i]){
@@ -206,9 +224,14 @@ window.onload = () => {
                     elDiv.classList.add('wall__item');
                     elDiv.classList.add(`template-${result[i].template}`);
                     elDiv.classList.add(`color-${result[i].color}`);
-                    elDiv.dataset.id = result[i].id;
-                    if (result[i].isMy) {
-                        elDiv.dataset.my = result[i].isMy;
+                    if(result[i].uuid) {
+                        elDiv.dataset.uuid = result[i].uuid;
+                    }
+                    else {
+                        elDiv.dataset.uuid = window.localStorage.getItem('uuid');
+                    }
+                    if (result[i].uuid === window.localStorage.getItem('uuid')) {
+                        elDiv.dataset.my = 'isMy';
                     }
                     const elPreWrap = document.createElement('div');
                     elPreWrap.classList.add('pre-wrap');
@@ -271,9 +294,14 @@ window.onload = () => {
                         elItem.classList.add('wall__item');
                         elItem.classList.add(`template-${resultTop[i][j].template}`);
                         elItem.classList.add(`color-${resultTop[i][j].color}`);
-                        elItem.dataset.id = resultTop[i][j].id;
-                        if (resultTop[i][j].isMy) {
-                            elItem.dataset.my = resultTop[i][j].isMy;
+                        if(resultTop[i][j].uuid) {
+                            elItem.dataset.uuid = resultTop[i][j].uuid;
+                        }
+                        else {
+                            elDiv.dataset.uuid = window.localStorage.getItem('uuid');
+                        }
+                        if (resultTop[i][j].uuid === window.localStorage.getItem('uuid')) {
+                            elItem.dataset.my = 'isMy';
                         }
                         const elPreWrap = document.createElement('div');
                         elPreWrap.classList.add('pre-wrap');
@@ -306,9 +334,14 @@ window.onload = () => {
                         elItem.classList.add('wall__item');
                         elItem.classList.add(`template-${resultBottom[i][j].template}`);
                         elItem.classList.add(`color-${resultBottom[i][j].color}`);
-                        elItem.dataset.id = resultBottom[i][j].id;
-                        if (resultBottom[i][j].isMy) {
-                            elItem.dataset.my = resultBottom[i][j].isMy;
+                        if(resultTop[i][j].uuid) {
+                            elItem.dataset.uuid = resultTop[i][j].uuid;
+                        }
+                        else {
+                            elDiv.dataset.uuid = window.localStorage.getItem('uuid');
+                        }
+                        if (resultTop[i][j].uuid === window.localStorage.getItem('uuid')) {
+                            elItem.dataset.my = 'isMy';
                         }
                         const elPreWrap = document.createElement('div');
                         elPreWrap.classList.add('pre-wrap');
@@ -428,9 +461,6 @@ window.onload = () => {
                 return false;
             };
 
-
-
-
             elWall.style.width = `${defaultWidth * centralLineIndex.length}px`;
             elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
             elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
@@ -438,14 +468,11 @@ window.onload = () => {
             elWall.dataset.top = ((document.body.offsetHeight - elWall.offsetHeight)/2).toString();
 
             elBtnMessage.addEventListener('click', () => {
-                arrWallItems.forEach((item) => {
-                    if(parseInt(item.dataset.id, 10) === 150) {
-                        elWall.style.left = `${-1*Array.from(item.parentElement.childNodes).indexOf(item) * defaultWidth}px`;
-                        elWall.style.top = `${-1*item.parentElement.dataset.line * defaultHeight}px`;
-                        elWall.dataset.left = (-1*Array.from(item.parentElement.childNodes).indexOf(item) * defaultWidth).toString();
-                        elWall.dataset.top = (-1*item.parentElement.dataset.line * defaultHeight).toString();
-                    }
-                })
+                elWall.style.width = `${defaultWidth * centralLineIndex.length}px`;
+                elWall.style.left = `${(document.body.offsetWidth - elWall.offsetWidth)/2}px`;
+                elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
+                elWall.dataset.left = ((document.body.offsetWidth - elWall.offsetWidth)/2).toString();
+                elWall.dataset.top = ((document.body.offsetHeight - elWall.offsetHeight)/2).toString();
             })
         })
         .catch((e) => {

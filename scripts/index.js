@@ -443,6 +443,7 @@ function ready() {
        */
       const form = new FormData();
       form.append("template", elInputArea.dataset.template);
+      form.append("uuid", elInputArea.dataset.template);
       form.append("font_style", elInputArea.dataset.valueFontStyle);
       form.append("color", elInputArea.dataset.color);
       form.append("text", elInput.innerHTML);
@@ -466,7 +467,9 @@ function ready() {
           })
           .then((json) => {
             if (json.result === true) {
-              alert(json.uuid)
+              let a = json.uuid;
+              window.localStorage.setItem('uuid', a);
+              console.log(a);
               /**
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
