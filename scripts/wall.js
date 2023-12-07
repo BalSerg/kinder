@@ -473,6 +473,7 @@ window.onload = () => {
                 elWall.style.top = `${(document.body.offsetHeight - elWall.offsetHeight)/2}px`;
                 elWall.dataset.left = ((document.body.offsetWidth - elWall.offsetWidth)/2).toString();
                 elWall.dataset.top = ((document.body.offsetHeight - elWall.offsetHeight)/2).toString();
+
             })
         })
         .catch((e) => {

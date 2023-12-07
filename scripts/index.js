@@ -32,6 +32,16 @@ const badWords = [
   'х - у - й',
   'х?у?й',
   'х ? у ? й',
+  'хер',
+  'х ер',
+  'хе р',
+  'х е р',
+  'х!е!р',
+  'х ! е ! р',
+  'х-е-р',
+  'х - е - р',
+  'х?е?р',
+  'х ? е ? р',
   'ахуй',
   'ехуй',
   'охуй',
@@ -123,6 +133,55 @@ const badWords = [
   'г ? о ? в ? н',
   'г-о-в-н',
   'г - о - в - н',
+  'урод',
+  'у р о д',
+  'у!р!о!д',
+  'у ! р ! о ! д',
+  'у?р?о?д',
+  'у ? р ? о ? д',
+  'у-р-о-д',
+  'у - р - о - д',
+  'пидор',
+  'п и д о р',
+  'п!и!д!о!р',
+  'п ! и ! д ! о ! р',
+  'п?и?д?о?р',
+  'п ? и ? д ? о ? р',
+  'п-и-д-о-р',
+  'п - и - д - о - р',
+  'пидар',
+  'п и д а р',
+  'п!и!д!а!р',
+  'п ! и ! д ! а ! р',
+  'п?и?д?а?р',
+  'п ? и ? д ? а ? р',
+  'п-и-д-а-р',
+  'п - и - д - а - р',
+  'пидер',
+  'п и д е р',
+  'п!и!д!е!р',
+  'п ! и ! д ! е ! р',
+  'п?и?д?е?р',
+  'п ? и ? д ? е ? р',
+  'п-и-д-е-р',
+  'п - и - д - е - р',
+  'гондон',
+  'г о н д о н',
+  'г!о!н!д!о!н',
+  'г ! о ! н ! д ! о ! н',
+  'г?о?н?д?о?н',
+  'г ? о ? н ? д ? о ? н',
+  'г-о-н-д-о-н',
+  'г - о - н - д - о - н',
+  'гандон',
+  'г а н д о н',
+  'г!а!н!д!о!н',
+  'г ! а ! н ! д ! о ! н',
+  'г?а?н?д?о?н',
+  'г ? а ? н ? д ? о ? н',
+  'г-а-н-д-о-н',
+  'г - а - н - д - о - н',
+
 ]
 
 const countTemplates = 6;// Количество шаблонов
@@ -379,7 +438,7 @@ function enterText() {
           endAlarm = elInput.textContent.indexOf(' ', startAlarm);
         }
         badText = elInput.textContent.substring(startPos, endAlarm);
-        const badFull = `${elInput.textContent.substring(startPos, endAlarm)}`;
+        const badFull = `<span>${elInput.textContent.substring(startPos, endAlarm)}</span>`;
         elInput.innerHTML = elInput.textContent.replace(badText, badFull);
         isSelectedBadWord = true;
         setCursorToEndString();
@@ -389,6 +448,7 @@ function enterText() {
     // Если нажали BackSpace и уже было плохое слово в тексте, то исправив плохой текст
     // убираем и обертку span
     if(e.inputType === 'deleteContentBackward' && isSelectedBadWord) {
+      alert(1);
       let str = elInput.innerHTML.toString();
       if(!str.includes(badText)) {
         let textBeforeSpan = str.substring(0, str.indexOf('<span'));
@@ -469,7 +529,6 @@ function ready() {
             if (json.result === true) {
               let a = json.uuid;
               window.localStorage.setItem('uuid', a);
-              console.log(a);
               /**
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
