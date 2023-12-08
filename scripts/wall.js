@@ -201,14 +201,13 @@ window.onload = () => {
             countLines = centralLineIndex.length;
 
             result.forEach((item) => {
-                if(!item.uuid){ // Если у элемента нет uuid , то назначаем ему из localStorage
+                if(item.text && !item.uuid){ // Если у элемента нет uuid , то назначаем ему из localStorage
                     item.uuid = window.localStorage.getItem('uuid');
                 }
 
                 // Элемент у которого uuid совпадаем с тем который лежит в localStorage ставим на центральное место,
                 // а на место ставим центральный
-                if(item.uuid === window.localStorage.getItem('uuid')) {
-                    console.log(result[Math.trunc(centralLineIndex.length/2)], item, result.indexOf(item));
+                if(window.localStorage.getItem('uuid') && item.uuid === window.localStorage.getItem('uuid')) {
 
                     let temp = result[Math.trunc(centralLineIndex.length/2)];
                     let index = result.indexOf(item);
