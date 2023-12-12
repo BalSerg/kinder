@@ -154,8 +154,9 @@ window.onload = () => {
                 resultTop = [],
                 resultBottom = [];
 
-            result.push(messageObj);
             messages = result;
+            messages.push(messageObj);
+
 
 
             // Для центральной линии
@@ -165,17 +166,17 @@ window.onload = () => {
                 start8 = 8;
 
             // Индексы от 4го элемента и ВЛЕВО НЕ ВКЛЮЧАЯ 4й
-            for(let i = 2; i< result.length; i++){
+            for(let i = 2; i< messages.length; i++){
                 start4 = (start4 + (6 * i) - 2);
-                if(result[start4]) {
+                if(messages[start4]) {
                     arrLineFrom4.push(start4);
                 }
             }
 
             // от 8го элемента и ВПРАВО НЕ ВКЛЮЧАЯ 8й
-            for(let i = 2; i< result.length; i++){
+            for(let i = 2; i< messages.length; i++){
                 start8 = (start8 + (6 * i) + 1);
-                if(result[start8]) {
+                if(messages[start8]) {
                     arrLineFrom8.push(start8);
                 }
             }
@@ -184,23 +185,23 @@ window.onload = () => {
             const arrLineForm4To8 = []
 
             for(let item of startIndex) {
-                if(result[item]){
+                if(messages[item]){
                     arrLineForm4To8.push(item);
                 }
             }
 
             centralLineIndex = [...arrLineFrom4.reverse(), ...arrLineForm4To8, ...arrLineFrom8];
-            if((result.length - centralLineIndex.length) % 2 === 0) {
-                halfCountItemsFromResult = (result.length - centralLineIndex.length) / 2;
+            if((messages.length - centralLineIndex.length) % 2 === 0) {
+                halfCountItemsFromResult = (messages.length - centralLineIndex.length) / 2;
             }
             else {
-                halfCountItemsFromResult = Math.trunc((result.length - centralLineIndex.length) / 2) + 1;
+                halfCountItemsFromResult = Math.trunc((messages.length - centralLineIndex.length) / 2) + 1;
             }
 
             // Количество строк на центральной линией и под ней
             countLines = centralLineIndex.length;
 
-            result.forEach((item) => {
+            messages.forEach((item) => {
                 if(item.text && !item.uuid){ // Если у элемента нет uuid , то назначаем ему из localStorage
                     item.uuid = window.localStorage.getItem('uuid');
                 }
@@ -208,35 +209,34 @@ window.onload = () => {
                 // Элемент у которого uuid совпадаем с тем который лежит в localStorage ставим на центральное место,
                 // а на место ставим центральный
                 if(window.localStorage.getItem('uuid') && item.uuid === window.localStorage.getItem('uuid')) {
-
-                    let temp = result[Math.trunc(centralLineIndex.length/2)];
-                    let index = result.indexOf(item);
-                    result[Math.trunc(centralLineIndex.length/2)] = item;
-                    result[index] = temp;
+                    let temp = messages[Math.trunc(centralLineIndex.length/2)];
+                    let index = messages.indexOf(item);
+                    messages[Math.trunc(centralLineIndex.length/2)] = item;
+                    messages[index] = temp;
                 }
             })
 
             // Заполняем среднюю линию
             for(let i=0; i<centralLineIndex.length; i++) {
-                if(result[i]){
+                if(messages[i]){
                     const elDiv = document.createElement('div');
                     elDiv.classList.add('wall__item');
-                    elDiv.classList.add(`template-${result[i].template}`);
-                    elDiv.classList.add(`color-${result[i].color}`);
-                    if(result[i].uuid) {
-                        elDiv.dataset.uuid = result[i].uuid;
+                    elDiv.classList.add(`template-${messages[i].template}`);
+                    elDiv.classList.add(`color-${messages[i].color}`);
+                    if(messages[i].uuid) {
+                        elDiv.dataset.uuid = messages[i].uuid;
                     }
                     else {
                         elDiv.dataset.uuid = window.localStorage.getItem('uuid');
                     }
-                    if (result[i].uuid === window.localStorage.getItem('uuid')) {
+                    if (messages[i].uuid === window.localStorage.getItem('uuid')) {
                         elDiv.dataset.my = 'isMy';
                     }
                     const elPreWrap = document.createElement('div');
                     elPreWrap.classList.add('pre-wrap');
                     const elPre = document.createElement('pre');
-                    elPre.innerHTML = `${result[i].text}`;
-                    elPre.classList.add(`font-style-${result[i].font_style}`);
+                    elPre.innerHTML = `${messages[i].text}`;
+                    elPre.classList.add(`font-style-${messages[i].font_style}`);
                     elPreWrap.append(elPre);
                     elDiv.append(elPreWrap);
                     elWallCenter.append(elDiv);
@@ -246,13 +246,13 @@ window.onload = () => {
             let arrTop = [];
             // Берем элементы не с первого. Первые взяты в центральную линию.
             for(let i = centralLineIndex.length; i < (halfCountItemsFromResult + centralLineIndex.length); i++) {
-                arrTop.push(result[i]);
+                arrTop.push(messages[i]);
             }
 
             let arrBottom = [];
             // Берем элементы не с первого. Первые взяты в центральную линию.
-            for(let i = centralLineIndex.length + halfCountItemsFromResult; i < result.length; i++) {
-                arrBottom.push(result[i]);
+            for(let i = centralLineIndex.length + halfCountItemsFromResult; i < messages.length; i++) {
+                arrBottom.push(messages[i]);
             }
 
             // Заполнение нового массива resultTop
