@@ -324,7 +324,7 @@ function goBack() {
       // Скрываем редактор
       elEditor.classList.add('is-hidden');
 
-      window.localStorage.clear();
+      //window.localStorage.clear();
       oldTemplate = `template-${elInputArea.dataset.template}`;
 
       // Показываем выбор шаблонов
@@ -492,11 +492,32 @@ function ready() {
     const elButton = document.createElement('button');
     const goWall = function () {
       saveStyleInputArea();
+
+
+      let messages = []; // массив для сообщений
+      let messages_item ={ // Объект для сообщения
+        templateMessage: null,
+        colorMessage: null,
+        fontStyleMessage: null,
+        textMessage: null,
+        uuid: null
+      };
+
+      messages_item.templateMessage = `${elInputArea.dataset.template}`;
+      messages_item.colorMessage = `${elInputArea.dataset.color}`;
+      messages_item.fontStyleMessage = `${elInputArea.dataset.valueFontStyle}`;
+      messages_item.textMessage = `${elInput.innerHTML}`;
+
+      messages.push(messages_item); // Добавляю объект в массив
       window.localStorage.setItem('isGoFromWall', 'true');
-      window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
+      /*window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
       window.localStorage.setItem('colorMessage', `${elInputArea.dataset.color}`);
       window.localStorage.setItem('fontStyleMessage', `${elInputArea.dataset.valueFontStyle}`);
-      window.localStorage.setItem('textMessage', `${elInput.innerHTML}`);
+      window.localStorage.setItem('textMessage', `${elInput.innerHTML}`);*/
+
+      window.localStorage.setItem('messages', JSON.stringify(messages)); // Отправляю весь массив объектов в стораж, но там всегда только один объект
+
+
 
       /**
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
@@ -533,7 +554,7 @@ function ready() {
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
                 elLoader.classList.add('is-hidden');
-                window.location.href ='wall.html';
+                window.open('wall.html');
             }
 
             throw new Error("Ошибка добавления записи");
@@ -609,12 +630,7 @@ const resize = () => {
     } else {
       orientation.style.display = "none";
     }
-
-    /*if (preloader) {
-        preloader.style.height = window.innerHeight + "px";
-    }*/
   }
-
 };
 
 window.onload = () => {
