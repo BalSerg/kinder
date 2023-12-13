@@ -494,37 +494,14 @@ function ready() {
 
 
       let messages = []; // массив для сообщений
-      let new_item ={ // Объект для сообщения
-        templateMessage: null,
-        colorMessage: null,
-        fontStyleMessage: null,
-        textMessage: null,
-        uuid: null
-      };
 
-      // Заполняем обект текцщим сообщением
-      new_item.templateMessage = `${elInputArea.dataset.template}`;
-      new_item.colorMessage = `${elInputArea.dataset.color}`;
-      new_item.fontStyleMessage = `${elInputArea.dataset.valueFontStyle}`;
-      new_item.textMessage = `${elInput.innerHTML}`;
-
-      // Проверяем если в стораж что-то есть, то преобразуем это в объект и кладем в массив messages
-      if(window.localStorage.getItem('messages')) {
-        try {
-          let inStorage = JSON.parse(window.localStorage.getItem('messages'));
-          messages.push(inStorage);
-        }
-        catch (e) {}
-      }
-
-      messages.push(new_item); // Добавляю новый объект с текущим сообщением в массив messages
       window.localStorage.setItem('isGoFromWall', 'true');
       /*window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
       window.localStorage.setItem('colorMessage', `${elInputArea.dataset.color}`);
       window.localStorage.setItem('fontStyleMessage', `${elInputArea.dataset.valueFontStyle}`);
       window.localStorage.setItem('textMessage', `${elInput.innerHTML}`);*/
 
-      window.localStorage.setItem('messages', JSON.stringify(messages)); // Отправляю весь массив объектов в стораж, но там всегда только один объект
+
 
       /**
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
@@ -555,8 +532,38 @@ function ready() {
           })
           .then((json) => {
             if (json.result === true) {
+
               let a = json.uuid;
-              window.localStorage.setItem(new_item.uuid, a);
+
+              let new_item ={ // Объект для сообщения
+                template: null,
+                color: null,
+                fontStyle: null,
+                text: null,
+                uuid: null
+              };
+
+              // Заполняем обект текцщим сообщением
+              new_item.template = `${elInputArea.dataset.template}`;
+              new_item.color = `${elInputArea.dataset.color}`;
+              new_item.font_style = `${elInputArea.dataset.valueFontStyle}`;
+              new_item.text = `${elInput.innerHTML}`;
+              new_item.uuid = a;
+
+              // Проверяем если в стораж что-то есть, то преобразуем это в объект и кладем в массив messages
+              if(window.localStorage.getItem('messages')) {
+                try {
+                  let inStorage = JSON.parse(window.localStorage.getItem('messages'));
+                  inStorage.forEach((item) => {
+                    messages.push(item);
+                  })
+                }
+                catch (e) {}
+              }
+
+              messages.push(new_item); // Добавляю новый объект с текущим сообщением в массив messages
+              window.localStorage.setItem('messages', JSON.stringify(messages)); // Отправляю весь массив объектов в стораж, но там всегда только один объект
+
               /**
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */

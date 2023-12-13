@@ -135,10 +135,18 @@ window.onload = () => {
     elEnd = getElement('.js-end');
     elClose = getElement('.js-close');
 
-    messageObj.template = window.localStorage.templateMessage;
-    messageObj.color = window.localStorage.colorMessage;
-    messageObj.font_style = window.localStorage.fontStyleMessage;
-    messageObj.text = window.localStorage.textMessage;
+    let fromStorage;// Для данных из стораж
+
+    try {
+        fromStorage = JSON.parse(window.localStorage.messages); // Получаем и сохраняем данные из стораж
+    } catch (e) {}
+
+    messageObj.template = fromStorage[fromStorage.length - 1].template;
+    messageObj.color =  fromStorage[fromStorage.length - 1].color;
+    messageObj.font_style = fromStorage[fromStorage.length - 1].font_style;
+    messageObj.text = fromStorage[fromStorage.length - 1].text;
+
+    console.log(fromStorage[fromStorage.length - 1])
 
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
@@ -155,9 +163,11 @@ window.onload = () => {
                 resultBottom = [];
 
             messages = result;
-            messages.push(messageObj);
 
-
+            // Данные из стораж добавляем в message
+            fromStorage.forEach((item) => {
+                messages.push(item);
+            })
 
             // Для центральной линии
             let arrLineFrom4 = [],
@@ -202,13 +212,9 @@ window.onload = () => {
             countLines = centralLineIndex.length;
 
             messages.forEach((item) => {
-                if(item.text && !item.uuid){ // Если у элемента нет uuid , то назначаем ему из localStorage
-                    item.uuid = window.localStorage.getItem('uuid');
-                }
-
                 // Элемент у которого uuid совпадаем с тем который лежит в localStorage ставим на центральное место,
                 // а на место ставим центральный
-                if(window.localStorage.getItem('uuid') && item.uuid === window.localStorage.getItem('uuid')) {
+                if(item.uuid === fromStorage[fromStorage.length - 1].uuid) {
                     let temp = messages[Math.trunc(centralLineIndex.length/2)];
                     let index = messages.indexOf(item);
                     messages[Math.trunc(centralLineIndex.length/2)] = item;
