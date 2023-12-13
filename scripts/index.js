@@ -448,7 +448,6 @@ function enterText() {
     // Если нажали BackSpace и уже было плохое слово в тексте, то исправив плохой текст
     // убираем и обертку span
     if(e.inputType === 'deleteContentBackward' && isSelectedBadWord) {
-      alert(1);
       let str = elInput.innerHTML.toString();
       if(!str.includes(badText)) {
         let textBeforeSpan = str.substring(0, str.indexOf('<span'));
@@ -491,11 +490,11 @@ function ready() {
     elDiv.classList.add('js-submit');
     const elButton = document.createElement('button');
     const goWall = function () {
-      saveStyleInputArea();
+      //saveStyleInputArea();
 
 
       let messages = []; // массив для сообщений
-      let messages_item ={ // Объект для сообщения
+      let new_item ={ // Объект для сообщения
         templateMessage: null,
         colorMessage: null,
         fontStyleMessage: null,
@@ -503,12 +502,22 @@ function ready() {
         uuid: null
       };
 
-      messages_item.templateMessage = `${elInputArea.dataset.template}`;
-      messages_item.colorMessage = `${elInputArea.dataset.color}`;
-      messages_item.fontStyleMessage = `${elInputArea.dataset.valueFontStyle}`;
-      messages_item.textMessage = `${elInput.innerHTML}`;
+      // Заполняем обект текцщим сообщением
+      new_item.templateMessage = `${elInputArea.dataset.template}`;
+      new_item.colorMessage = `${elInputArea.dataset.color}`;
+      new_item.fontStyleMessage = `${elInputArea.dataset.valueFontStyle}`;
+      new_item.textMessage = `${elInput.innerHTML}`;
 
-      messages.push(messages_item); // Добавляю объект в массив
+      // Проверяем если в стораж что-то есть, то преобразуем это в объект и кладем в массив messages
+      if(window.localStorage.getItem('messages')) {
+        try {
+          let inStorage = JSON.parse(window.localStorage.getItem('messages'));
+          messages.push(inStorage);
+        }
+        catch (e) {}
+      }
+
+      messages.push(new_item); // Добавляю новый объект с текущим сообщением в массив messages
       window.localStorage.setItem('isGoFromWall', 'true');
       /*window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
       window.localStorage.setItem('colorMessage', `${elInputArea.dataset.color}`);
@@ -516,8 +525,6 @@ function ready() {
       window.localStorage.setItem('textMessage', `${elInput.innerHTML}`);*/
 
       window.localStorage.setItem('messages', JSON.stringify(messages)); // Отправляю весь массив объектов в стораж, но там всегда только один объект
-
-
 
       /**
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
@@ -549,7 +556,7 @@ function ready() {
           .then((json) => {
             if (json.result === true) {
               let a = json.uuid;
-              window.localStorage.setItem('uuid', a);
+              window.localStorage.setItem(new_item.uuid, a);
               /**
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
