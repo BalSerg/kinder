@@ -139,12 +139,11 @@ window.onload = () => {
 
     try {
         fromStorage = JSON.parse(window.localStorage.messages); // Получаем и сохраняем данные из стораж
+        messageObj.template = fromStorage[fromStorage.length - 1].template;
+        messageObj.color =  fromStorage[fromStorage.length - 1].color;
+        messageObj.font_style = fromStorage[fromStorage.length - 1].font_style;
+        messageObj.text = fromStorage[fromStorage.length - 1].text;
     } catch (e) {}
-
-    messageObj.template = fromStorage[fromStorage.length - 1].template;
-    messageObj.color =  fromStorage[fromStorage.length - 1].color;
-    messageObj.font_style = fromStorage[fromStorage.length - 1].font_style;
-    messageObj.text = fromStorage[fromStorage.length - 1].text;
 
     let messages = [],
         centralLineIndex = []; // Массив для индексов элементов в центральной линии шестиугольника
@@ -164,16 +163,19 @@ window.onload = () => {
 
             // Данные из стораж добавляем в message, но только те данные uuid которых нет в message
             let matches = 0; // Количество совпадений uuid
-            fromStorage.forEach((item) => {
-                for(let i=0; i<messages.length; i++) {
-                    if(item.uuid === messages[i].uuid) {
-                        matches += 1;
+            if(fromStorage) {
+                fromStorage.forEach((item) => {
+                    for(let i=0; i<messages.length; i++) {
+                        if(item.uuid === messages[i].uuid) {
+                            matches += 1;
+                        }
                     }
-                }
-                if(matches ===0) { // Если нет совпадений uuid , то данные из стораж добавляем в message
-                    messages.push(item);
-                }
-            })
+                    if(matches ===0) { // Если нет совпадений uuid , то данные из стораж добавляем в message
+                        messages.push(item);
+                    }
+                })
+            }
+
 
             // Для центральной линии
             let arrLineFrom4 = [],
@@ -220,7 +222,7 @@ window.onload = () => {
             messages.forEach((item) => {
                 // Элемент у которого uuid совпадаем с тем который лежит в localStorage ставим на центральное место,
                 // а на место ставим центральный
-                if(item.uuid === fromStorage[fromStorage.length - 1].uuid) {
+                if(fromStorage && item.uuid === fromStorage[fromStorage.length - 1].uuid) {
                     let temp = messages[Math.trunc(centralLineIndex.length/2)];
                     let index = messages.indexOf(item);
                     messages[Math.trunc(centralLineIndex.length/2)] = item;

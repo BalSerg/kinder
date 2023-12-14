@@ -339,44 +339,6 @@ function goBack() {
   })
 }
 
-function changeTagOnBr(){
-  const selection = window.getSelection(),
-      range = selection.getRangeAt(0),
-      node = document.getSelection().anchorNode,
-      pNode = node.parentNode;
-  let tag = pNode.nodeName.toUpperCase();
-  switch(tag) {
-    case 'P':
-      tag = 'BR';
-      break;
-
-    case 'DIV':
-      tag = 'BR';
-      break;
-  }
-
-  const el = document.createElement( tag );
-
-  range.deleteContents();
-  range.insertNode(el);
-
-  if ('BR'===tag) {
-    range.setStartAfter(el);
-    range.setEndAfter(el);
-  } else {
-    range.setStart(el, 0);
-    range.setEnd(el, 0);
-  }
-
-  const ze = document.createTextNode("\u200B");
-  range.insertNode(ze);
-  range.setStartBefore(ze);
-  range.setEndBefore(ze);
-
-  selection.removeAllRanges();
-  selection.addRange(range);
-}
-
 // Функция ввода тектса
 function enterText() {
   let isSelectedBadWord = false;
@@ -490,18 +452,8 @@ function ready() {
     elDiv.classList.add('js-submit');
     const elButton = document.createElement('button');
     const goWall = function () {
-      //saveStyleInputArea();
-
-
       let messages = []; // массив для сообщений
-
       window.localStorage.setItem('isGoFromWall', 'true');
-      /*window.localStorage.setItem('templateMessage', `${elInputArea.dataset.template}`);
-      window.localStorage.setItem('colorMessage', `${elInputArea.dataset.color}`);
-      window.localStorage.setItem('fontStyleMessage', `${elInputArea.dataset.valueFontStyle}`);
-      window.localStorage.setItem('textMessage', `${elInput.innerHTML}`);*/
-
-
 
       /**
        * TODO: ПОЛОЖИТЬ ПРАВИЛЬНЫЕ ДАННЫЕ В ФОРМУ
