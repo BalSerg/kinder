@@ -568,7 +568,7 @@ function ready() {
                * TODO: ВЫКЛЮЧИТЬ ИНДИКАТОР ЗАГРУЗКИ
                */
                 elLoader.classList.add('is-hidden');
-                window.open('wall.html');
+                window.location.href ='wall.html';
             }
 
             throw new Error("Ошибка добавления записи");
