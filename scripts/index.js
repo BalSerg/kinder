@@ -564,6 +564,22 @@ function checkIsGoFromWall() {
     elImg.classList.add('pseudo-buttons');
     elImg.classList.add('js-pseudo-buttons');
     elEditorWrapper.append(elImg);
+
+    try {
+      if(window.localStorage.messages) {
+        let fromStorage = JSON.parse(window.localStorage.messages);
+        elInputArea.dataset.template = fromStorage[fromStorage.length - 1].template;
+        elInputArea.classList.add(`template-${elInputArea.dataset.template}`);
+        elInputArea.dataset.valueFontStyle = fromStorage[fromStorage.length - 1].font_style;
+        elInputArea.classList.add(`font-style-${elInputArea.dataset.valueFontStyle}`);
+        const oldColor = `color-${elInputArea.dataset.color}`;
+        elInputArea.dataset.color = fromStorage[fromStorage.length - 1].color;
+        elInputArea.classList.add(`color-${elInputArea.dataset.color}`);
+        elInputArea.classList.replace(`${oldColor}`, `color-${elInputArea.dataset.color}`);
+      }
+
+
+    } catch (e) {}
     if(window.localStorage.getItem('name-template')) {
       elInputArea.dataset.template = window.localStorage.getItem('name-template');
       elInputArea.classList.add(`template-${elInputArea.dataset.template}`);
