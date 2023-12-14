@@ -490,7 +490,7 @@ function ready() {
               let new_item ={ // Объект для сообщения
                 template: null,
                 color: null,
-                fontStyle: null,
+                font_style: null,
                 text: null,
                 uuid: null
               };
@@ -545,7 +545,7 @@ function ready() {
 function skip() {
   elBtnSkip.addEventListener('click', () => {
     window.localStorage.setItem('isGoFromWall', 'true');
-    saveStyleInputArea();
+    //saveStyleInputArea();
     window.location.href ='wall.html';
   })
 }
@@ -577,26 +577,9 @@ function checkIsGoFromWall() {
         elInputArea.classList.add(`color-${elInputArea.dataset.color}`);
         elInputArea.classList.replace(`${oldColor}`, `color-${elInputArea.dataset.color}`);
       }
-
-
     } catch (e) {}
-    if(window.localStorage.getItem('name-template')) {
-      elInputArea.dataset.template = window.localStorage.getItem('name-template');
-      elInputArea.classList.add(`template-${elInputArea.dataset.template}`);
-    }
-    if(window.localStorage.getItem('fontStyle')) {
-      elInputArea.dataset.valueFontStyle = window.localStorage.getItem('fontStyle');
-      elInputArea.classList.add(`font-style-${elInputArea.dataset.valueFontStyle}`);
-    }
-    if(window.localStorage.getItem('color')) {
-      const oldColor = `color-${elInputArea.dataset.color}`;
 
-      elInputArea.dataset.color = window.localStorage.getItem('color');
-      elInputArea.classList.add(`color-${elInputArea.dataset.color}`);
-      elInputArea.classList.replace(`${oldColor}`, `color-${elInputArea.dataset.color}`);
-    }
-
-    window.localStorage.clear();
+    window.localStorage.removeItem('isGoFromWall');
   }
 }
 
