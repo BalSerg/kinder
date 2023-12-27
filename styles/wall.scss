@@ -193,7 +193,7 @@ body {
       background: url("../images/ded1.png") 0 no-repeat;
       background-size: cover;
 
-      animation: so 2s infinite ease-out;
+      animation: so 2s infinite linear;
       cursor: pointer;
 
       @keyframes so {
