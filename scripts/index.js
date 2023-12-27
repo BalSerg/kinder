@@ -237,7 +237,9 @@ function setTemplatesSizesInChoice() {
 
 // Функция устанавливает высоту странице
 function setHeightMain() {
-  elMain.style.height = `${document.documentElement.scrollHeight}px`;
+  if(elMain) {
+    elMain.style.height = `${document.documentElement.scrollHeight}px`;
+  }
 }
 
 // Функция обработки получения Фокуса полем ввода
@@ -484,6 +486,10 @@ function ready() {
           })
           .then((json) => {
             if (json.result === true) {
+
+              try{
+                ym(95707814,'reachGoal','wall_send');
+              } catch(e) {};
 
               let a = json.uuid;
 
