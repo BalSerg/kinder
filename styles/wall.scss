@@ -120,14 +120,16 @@ body {
     &__item {
       width: 222px;
       height: 232px;
+      display: block;
 
       .pre-wrap {
         width: calc(100% - 24px);
-        height: calc(100% - 24px);
+        height: calc(100% - 44px);
         overflow: hidden;
         display: flex;
         box-sizing: border-box;
         margin: auto;
+        padding-top: 12px;
       }
 
       pre {
@@ -136,7 +138,8 @@ body {
         height: fit-content;
         white-space: pre-wrap;
         display: block;
-        margin: auto;
+        //margin: auto;
+        font-size: 85%;
       }
     }
   }
@@ -193,7 +196,7 @@ body {
       background: url("../images/ded1.png") 0 no-repeat;
       background-size: cover;
 
-      animation: so 2s infinite linear;
+      //animation: so 2s infinite linear;
       cursor: pointer;
 
       @keyframes so {
